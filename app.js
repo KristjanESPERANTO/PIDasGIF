@@ -24,7 +24,7 @@ function mergeCanvases() {
   encoder.start();
 
   for (let canvas of canvases) {
-    console.info(canvas.height + " " + canvas.width);
+    // console.info(canvas.height + " " + canvas.width);
     let context = canvas.getContext("2d");
     encoder.addFrame(context);
   }
