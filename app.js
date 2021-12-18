@@ -21,14 +21,12 @@ function mergeCanvases() {
   let canvases = document.getElementsByTagName("canvas");
 
   encoder.setSize(canvasWidth, canvasHeight);
-  console.info(encoder.start());
+  encoder.start();
 
   for (let canvas of canvases) {
-    if (canvas.id != "bitmap") {
-      console.info(canvas.height + " " + canvas.width);
-      let context = canvas.getContext("2d");
-      encoder.addFrame(context);
-    }
+    console.info(canvas.height + " " + canvas.width);
+    let context = canvas.getContext("2d");
+    encoder.addFrame(context);
   }
 
   encoder.finish();
@@ -38,8 +36,8 @@ function mergeCanvases() {
   gifAnimationContainer.hidden = false;
 }
 
-let canvasHeight;
-let canvasWidth;
+var canvasHeight;
+var canvasWidth;
 
 let canvasButton = document.getElementById("canvasButton");
 canvasButton.addEventListener("click", addCanvas);
