@@ -1,52 +1,52 @@
+"use strict";
 
-    let canvasHeight;
-    let canvasWidth;
+function addCanvas() {
 
-    let canvasButton = document.getElementById('canvasButton');
-    canvasButton.addEventListener('click', addCanvas);
+  let element = document.getElementById("wrapper");
+  const lineBreak = document.createElement("br");
 
-    let createAnimationButton = document.getElementById('createAnimationButton');
-    createAnimationButton.addEventListener('click', mergeCanvases);
-    createAnimationButton.hidden = true;
+  html2canvas(element).then(function (canvas) {
+    canvasHeight = canvas.height;
+    canvasWidth = canvas.width;
+    createAnimationButton.hidden = false;
+    document.body.appendChild(lineBreak);
+    document.body.appendChild(canvas);
+  });
+}
 
-    let gifAnimationContainer = document.getElementById('gifAnimationContainer');
-    gifAnimationContainer.hidden = true;
+function mergeCanvases() {
+  var encoder = new GIFEncoder();
+  encoder.setRepeat(0);
+  encoder.setDelay(1500);
+  let canvases = document.getElementsByTagName("canvas");
 
+  encoder.setSize(canvasWidth, canvasHeight);
+  console.info(encoder.start());
 
-    function addCanvas() {
-
-      element = document.getElementById("wrapper");
-      const lineBreak = document.createElement('br');
-
-      html2canvas(element).then(function (canvas) {
-        canvasHeight = canvas.height;
-        canvasWidth = canvas.width;
-        createAnimationButton.hidden = false;
-        document.body.appendChild(lineBreak);
-        document.body.appendChild(canvas);
-      });
+  for (let canvas of canvases) {
+    if (canvas.id != "bitmap") {
+      console.info(canvas.height + " " + canvas.width);
+      let context = canvas.getContext("2d");
+      encoder.addFrame(context);
     }
+  }
 
-    function mergeCanvases() {
-      var encoder = new GIFEncoder();
-      encoder.setRepeat(0);
-      encoder.setDelay(1500);
-      canvases = document.getElementsByTagName("canvas");
+  encoder.finish();
+  document.getElementById("gifAnimation").src = "data:image/gif;base64," + encode64(encoder.stream().getData());
+  document.getElementById("gifAnimation").width = canvasWidth;
+  document.getElementById("gifAnimation").height = canvasHeight;
+  gifAnimationContainer.hidden = false;
+}
 
-      encoder.setSize(canvasWidth, canvasHeight);
-      console.info(encoder.start());
+let canvasHeight;
+let canvasWidth;
 
-      for (let canvas of canvases) {
-        if (canvas.id != "bitmap") {
-          console.info(canvas.height + " " + canvas.width);
-          let context = canvas.getContext('2d');
-          encoder.addFrame(context);
-        }
-      }
+let canvasButton = document.getElementById("canvasButton");
+canvasButton.addEventListener("click", addCanvas);
 
-      encoder.finish();
-      document.getElementById('gifAnimation').src = 'data:image/gif;base64,' + encode64(encoder.stream().getData());
-      document.getElementById('gifAnimation').width = canvasWidth;
-      document.getElementById('gifAnimation').height = canvasHeight;
-      gifAnimationContainer.hidden = false;
-    }
+let createAnimationButton = document.getElementById("createAnimationButton");
+createAnimationButton.addEventListener("click", mergeCanvases);
+createAnimationButton.hidden = true;
+
+let gifAnimationContainer = document.getElementById("gifAnimationContainer");
+gifAnimationContainer.hidden = true;

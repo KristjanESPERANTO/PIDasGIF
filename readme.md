@@ -3,6 +3,7 @@
 Create an animated GIF file to simulate a passenger information display.
 
 ## Exemplary results
+
 ![Exemplary result](images/example01.gif "Exemplary result 1")
 ![Exemplary result](images/example02.gif "Exemplary result 2")
 
