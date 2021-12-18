@@ -11,20 +11,24 @@
 table {
   table-layout: fixed;
 }
+
 td {
   word-wrap: break-word;
   white-space: nowrap;
 }
+
 td:first-child {
   min-width: 3ch;
   text-align: left;
 }
+
 td:nth-child(2) {
   width: 20ch;
   max-width: 20ch;
   padding-left: 5px;
   text-align: left;
 }
+
 td:last-child {
   min-width: 6ch;
   overflow: hidden;
@@ -44,6 +48,7 @@ td:last-child {
 td br {
   display: none;
 }
+
 td * {
   display: inline-block;
 }
