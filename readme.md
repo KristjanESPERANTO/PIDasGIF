@@ -2,8 +2,9 @@
 
 Create an animated GIF file to simulate a passenger information display.
 
-## Exemplary result
-![Exemplary result](images/example01.gif "Exemplary result")
+## Exemplary results
+![Exemplary result](images/example01.gif "Exemplary result 1")
+![Exemplary result](images/example02.gif "Exemplary result 2")
 
 ## Usage
 
@@ -19,11 +20,10 @@ Create an animated GIF file to simulate a passenger information display.
 - Details for Third-Party
 - GitHub website
 - GitHub button in index.html
+- Allow user to define animation speed
 
 ## Third-Party
 
 - 24 LED
 - html2canvas
 - jsgif
-
-## Third-Party
