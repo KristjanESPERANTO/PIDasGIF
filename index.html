@@ -3,17 +3,16 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>OFI2GIF</title>
+  <title>PIDasGIF</title>
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
   <link rel="stylesheet" href="stylesheet.css">
 </head>
 
 <body>
-  <div>
-    <button id='canvasButton'>Add Slide</button>
-    <button id='createAnimationButton'>Create Animation</button>
-    <button onClick="window.location.reload();">Refresh Page</button>
-    <div class="wrapper">
+
+  <h2>You can edit this table</h2>
+  <div id="container">
+    <div id="wrapper">
 
       <table contenteditable="true">
         <tr>
@@ -33,80 +32,64 @@
         </tr>
         <tr>
           <td> i </td>
-          <td colspan="2">
-            <marquee>
-              1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-            </marquee>
-          </td>
+          <td colspan="2"> *** Bauarbeiten im Bereich Marktplatz *** </td>
         </tr>
       </table>
-
-
     </div>
 
-    <div>
-      <img id="gifAnimation">
+    <div id="lineControls">
+      <div>
+        <span>Row 1: </span>
+        <input type="radio" id="departure" name="line_one" value="departure" checked>
+        <label for="departure" checked>Departure</label>
+        <input type="radio" id="textRow" name="line_one" value="textRow">
+        <label for="textRow">Text Row</label>
+      </div>
+      <div>
+        <span>Row 2: </span>
+        <input type="radio" id="departure" name="line_two" value="departure" checked>
+        <label for="departure">Departure</label>
+        <input type="radio" id="textRow" name="line_two" value="textRow">
+        <label for="textRow">Text Row</label>
+      </div>
+      <div>
+        <span>Row 3: </span>
+        <input type="radio" id="departure" name="line_three" value="departure" checked>
+        <label for="departure">Departure</label>
+        <input type="radio" id="textRow" name="line_three" value="textRow">
+        <label for="textRow">Text Row</label>
+      </div>
+      <div>
+        <span>Row 4: </span>
+        <input type="radio" id="departure" name="line_four" value="departure">
+        <label for="departure">Departure</label>
+        <input type="radio" id="textRow" name="line_four" value="textRow">
+        <label for="textRow">Text Row</label>
+        <input type="radio" id="infoText" name="line_four" value="infoText" checked>
+        <label for="infoText">Info Text</label>
+      </div>
     </div>
   </div>
-  <div>
-    <canvas id="bitmap"></canvas>
+
+  <div id="controls">
+    <button id='canvasButton'>Add Slide</button>
+    <button id='createAnimationButton'>Create Animation</button>
+    <button onClick="window.location.reload();">Refresh Page</button>
   </div>
 
+  <div id="gifAnimationContainer">
+    <h2>You can download this image with right click</h2>
+    <img id="gifAnimation">
+  </div>
+
+  <h2>Slides</h2>
 
   <script src="./third-party/html2canvas/html2canvas.js"></script>
   <script src="./third-party/jsgif/b64.js"></script>
   <script src="./third-party/jsgif/LZWEncoder.js"></script>
   <script src="./third-party/jsgif/NeuQuant.js"></script>
   <script src="./third-party/jsgif/GIFEncoder.js"></script>
-  <script>
-
-    let canvasHeight;
-    let canvasWidth;
-
-    let btn = document.getElementById('canvasButton');
-    btn.addEventListener('click', addCanvas);
-
-    let btn2 = document.getElementById('createAnimationButton');
-    btn2.addEventListener('click', mergeCanvases);
-    btn2.hidden = true;
-
-
-
-    function addCanvas() {
-
-      element = document.getElementsByClassName("wrapper")[0];
-      const lineBreak = document.createElement('br');
-
-      html2canvas(element).then(function (canvas) {
-        canvasHeight = canvas.height;
-        canvasWidth = canvas.width;
-        btn2.hidden = false;
-        document.body.appendChild(lineBreak);
-        document.body.appendChild(canvas);
-      });
-    }
-
-    function mergeCanvases() {
-      var encoder = new GIFEncoder();
-      encoder.setRepeat(0);
-      encoder.setDelay(1500);
-      canvases = document.getElementsByTagName("canvas");
-
-      encoder.setSize(canvasWidth, canvasHeight);
-      console.log(encoder.start());
-
-      for (let canvas of canvases) {
-        if (canvas.id != "bitmap") {
-          console.log(canvas.height + " " + canvas.width);
-          let context = canvas.getContext('2d');
-          encoder.addFrame(context);
-        }
-      }
-
-      encoder.finish();
-      document.getElementById('gifAnimation').src = 'data:image/gif;base64,' + encode64(encoder.stream().getData())
-    }
-  </script>
+  <script src="./app.js"></script>
 
 </body>
 
