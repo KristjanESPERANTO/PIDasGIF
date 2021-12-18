@@ -42,9 +42,9 @@ var canvasWidth;
 let canvasButton = document.getElementById("canvasButton");
 canvasButton.addEventListener("click", addCanvas);
 
-let createAnimationButton = document.getElementById("createAnimationButton");
+var createAnimationButton = document.getElementById("createAnimationButton");
 createAnimationButton.addEventListener("click", mergeCanvases);
 createAnimationButton.hidden = true;
 
-let gifAnimationContainer = document.getElementById("gifAnimationContainer");
+var gifAnimationContainer = document.getElementById("gifAnimationContainer");
 gifAnimationContainer.hidden = true;
