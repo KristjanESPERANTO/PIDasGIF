@@ -34,11 +34,11 @@
       canvases = document.getElementsByTagName("canvas");
 
       encoder.setSize(canvasWidth, canvasHeight);
-      console.log(encoder.start());
+      console.info(encoder.start());
 
       for (let canvas of canvases) {
         if (canvas.id != "bitmap") {
-          console.log(canvas.height + " " + canvas.width);
+          console.info(canvas.height + " " + canvas.width);
           let context = canvas.getContext('2d');
           encoder.addFrame(context);
         }
