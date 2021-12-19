@@ -74,25 +74,30 @@
           <input type="radio" id="infoText4" name="line_four" value="infoText" checked>
           <label for="infoText4">Info Text</label>
         </div>
-        <div>
-          <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
-          <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
-        </div>
+
       </div>
     </div>
 
     <div id="controls">
       <button id='canvasButton'>Add Slide</button>
-      <button id='createAnimationButton'>Create Animation</button>
       <button onClick="window.location.reload(true);">Reload Page</button>
     </div>
-
+    <div id="animationContainer">
+      <button id='createAnimationButton'>Create Animation</button>
+      <div>
+        <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
+        <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
+      </div>
+    </div>
+    
     <div id="gifAnimationContainer">
       <h2>You can download this image with right click</h2>
       <img id="gifAnimation">
     </div>
 
-    <h2>Slides</h2>
+    <div id="slidesContainer">
+      <h2>Slides:<span id="slides"></span></h2>
+    </div>
   </main>
 
   <footer>

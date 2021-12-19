@@ -56,9 +56,15 @@ td * {
   display: inline-block;
 }
 
-canvas,
-#gifAnimation {
-  margin: 25px auto;
+#animationContainer {
+  visibility: hidden;
+  width: 250px;
+  margin:  25px auto;
+}
+
+#gifAnimationContainer,
+#slidesContainer {
+  visibility: hidden;
 }
 
 #container {
@@ -91,6 +97,7 @@ footer {
 }
 
 footer > a {
+  background-color: lightgrey;
   text-decoration: none;
   color: black;
 }

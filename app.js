@@ -1,21 +1,30 @@
 "use strict";
 
+let canvasHeight;
+let canvasWidth;
+let canvasCounter = 0;
+
 function addCanvas() {
-
-  let element = document.getElementById("wrapper");
+  let wrapper = document.getElementById("wrapper");
   const lineBreak = document.createElement("br");
+  canvasCounter += 1;
+  let animationContainer = document.getElementById("animationContainer");
+  if (canvasCounter > 1) animationContainer.style.visibility = "inherit";
+  let slidesContainer = document.getElementById("slidesContainer");
+  slidesContainer.style.visibility = "inherit";
+  let slidesCounter = document.getElementById("slides");
+  slidesCounter.innerText = canvasCounter;
 
-  html2canvas(element).then(function (canvas) {
+  html2canvas(wrapper).then(function (canvas) {
     canvasHeight = canvas.height;
     canvasWidth = canvas.width;
-    createAnimationButton.hidden = false;
-    document.body.appendChild(lineBreak);
-    document.body.appendChild(canvas);
+    slidesContainer.appendChild(canvas);
+    slidesContainer.appendChild(lineBreak);
   });
 }
 
 function mergeCanvases() {
-  var encoder = new GIFEncoder();
+  let encoder = new GIFEncoder();
   encoder.setRepeat(0);
   encoder.setDelay(slider.value);
   let canvases = document.getElementsByTagName("canvas");
@@ -30,25 +39,19 @@ function mergeCanvases() {
   }
 
   encoder.finish();
-  document.getElementById("gifAnimation").src = "data:image/gif;base64," + encode64(encoder.stream().getData());
-  document.getElementById("gifAnimation").width = canvasWidth;
-  document.getElementById("gifAnimation").height = canvasHeight;
-  gifAnimationContainer.hidden = false;
+  let gifAnimation = document.getElementById("gifAnimation")
+  gifAnimation.src = "data:image/gif;base64," + encode64(encoder.stream().getData());
+  gifAnimation.width = canvasWidth;
+  gifAnimation.height = canvasHeight;
+  let gifAnimationContainer = document.getElementById("gifAnimationContainer");
+  gifAnimationContainer.style.visibility = "inherit";
 }
 
-var canvasHeight;
-var canvasWidth;
+let btnAddSlide = document.getElementById("canvasButton");
+btnAddSlide.addEventListener("click", addCanvas);
 
-let canvasButton = document.getElementById("canvasButton");
-canvasButton.addEventListener("click", addCanvas);
-
-var createAnimationButton = document.getElementById("createAnimationButton");
-createAnimationButton.addEventListener("click", mergeCanvases);
-createAnimationButton.hidden = true;
-
-var gifAnimationContainer = document.getElementById("gifAnimationContainer");
-gifAnimationContainer.hidden = true;
-
+let btnCreateAnimation = document.getElementById("createAnimationButton");
+btnCreateAnimation.addEventListener("click", mergeCanvases);
 
 const btn1d = document.querySelector('#departure1');
 btn1d.onclick = function () {
@@ -108,6 +111,6 @@ let slider = document.getElementById("slider");
 let output = document.getElementById("intervalValue");
 output.innerHTML = slider.value;
 
-slider.oninput = function() {
+slider.oninput = function () {
   output.innerHTML = this.value;
 }
