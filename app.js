@@ -14,7 +14,9 @@ function addCanvas() {
   const lineBreak = document.createElement("br");
   canvasCounter += 1;
   let animationContainer = document.getElementById("animationContainer");
-  if (canvasCounter > 1) { animationContainer.style.visibility = "inherit" };
+  if (canvasCounter > 1) {
+    animationContainer.style.visibility = "inherit";
+  }
   let slidesContainer = document.getElementById("slidesContainer");
   slidesContainer.style.visibility = "inherit";
   let slidesCounter = document.getElementById("slides");
@@ -52,19 +54,17 @@ function mergeCanvases() {
   gifAnimationContainer.style.visibility = "inherit";
 }
 
-function downloadCanvas(){
-  let canvas = document.getElementById( 'gifAnimation' ); 
-  let image = canvas.src;  
+function downloadCanvas() {
+  let canvas = document.getElementById("gifAnimation");
+  let image = canvas.src;
 
-  // create temporary link  
-  let tmpLink = document.createElement( 'a' );  
-  tmpLink.download = 'image.gif'; // set the name of the download file 
-  tmpLink.href = image;  
+  let tmpLink = document.createElement("a");
+  tmpLink.download = "image.gif";
+  tmpLink.href = image;
 
-  // temporarily add link to body and initiate the download  
-  document.body.appendChild( tmpLink );  
-  tmpLink.click();  
-  document.body.removeChild( tmpLink );  
+  document.body.appendChild(tmpLink);
+  tmpLink.click();
+  document.body.removeChild(tmpLink);
 }
 
 let btnAddSlide = document.getElementById("canvasButton");

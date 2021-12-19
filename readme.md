@@ -12,8 +12,8 @@ Create an animated GIF file to simulate a passenger information display.
 1. Adapt the content of the table
 2. Press button to add this as slide
 3. Repeat steps 1 and 2 until you have all slides you need
-4. Use button `Create Animation` to create the GIF file
-5. Use right click to download the GIF file
+4. Use button `Create Animation` to create the GIF image
+5. Use download button to download the GIF file
 
 ## Todo
 
