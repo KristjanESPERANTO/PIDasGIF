@@ -59,7 +59,7 @@ btn1d.onclick = function () {
 const btn1t = document.querySelector('#textRow1');
 btn1t.onclick = function () {
   let line = document.getElementById("tr1");
-  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+  line.innerHTML = "<td colspan='3' class='textRow'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
 };
 
 const btn2d = document.querySelector('#departure2');
@@ -71,7 +71,7 @@ btn2d.onclick = function () {
 const btn2t = document.querySelector('#textRow2');
 btn2t.onclick = function () {
   let line = document.getElementById("tr2");
-  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+  line.innerHTML = "<td colspan='3' class='textRow'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
 };
 
 const btn3d = document.querySelector('#departure3');
@@ -83,7 +83,7 @@ btn3d.onclick = function () {
 const btn3t = document.querySelector('#textRow3');
 btn3t.onclick = function () {
   let line = document.getElementById("tr3");
-  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+  line.innerHTML = "<td colspan='3' class='textRow'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
 };
 
 const btn4d = document.querySelector('#departure4');
@@ -95,7 +95,7 @@ btn4d.onclick = function () {
 const btn4t = document.querySelector('#textRow4');
 btn4t.onclick = function () {
   let line = document.getElementById("tr4");
-  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+  line.innerHTML = "<td colspan='3' class='textRow'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
 };
 
 const btn4i = document.querySelector('#infoText4');
