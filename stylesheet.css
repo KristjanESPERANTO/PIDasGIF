@@ -51,11 +51,10 @@ td * {
   display: inline-block;
 }
 
-body,
+
 canvas,
 #gifAnimation {
   margin: 25px auto;
-  text-align: center;
 }
 
 #container {
@@ -72,4 +71,21 @@ canvas,
 
 #lineControls > div {
   height: 25%;
+}
+
+body {
+  background-color: lightgrey;
+  text-align: center;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  padding: 5px 0;  left: 0;
+  width: 100%;
+}
+
+footer > a {
+  text-decoration: none;
+  color: black;
 }
