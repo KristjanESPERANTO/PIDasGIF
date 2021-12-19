@@ -17,7 +17,6 @@ Create an animated GIF file to simulate a passenger information display.
 
 ## Todo
 
-- Working Radio Buttons
 - Allow user to define animation speed
 
 ## Third-Party

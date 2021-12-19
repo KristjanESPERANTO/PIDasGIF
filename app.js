@@ -48,3 +48,58 @@ createAnimationButton.hidden = true;
 
 var gifAnimationContainer = document.getElementById("gifAnimationContainer");
 gifAnimationContainer.hidden = true;
+
+
+const btn1d = document.querySelector('#departure1');
+btn1d.onclick = function () {
+  let line = document.getElementById("tr1");
+  line.innerHTML = "<td>8</td><td>Elsa-Brändström-Str.</td><td>sofort</td>";
+};
+
+const btn1t = document.querySelector('#textRow1');
+btn1t.onclick = function () {
+  let line = document.getElementById("tr1");
+  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+};
+
+const btn2d = document.querySelector('#departure2');
+btn2d.onclick = function () {
+  let line = document.getElementById("tr2");
+  line.innerHTML = "<td>351</td><td>Starpark</td><td>2 min</td>";
+};
+
+const btn2t = document.querySelector('#textRow2');
+btn2t.onclick = function () {
+  let line = document.getElementById("tr2");
+  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+};
+
+const btn3d = document.querySelector('#departure3');
+btn3d.onclick = function () {
+  let line = document.getElementById("tr3");
+  line.innerHTML = "<td>34</td><td>Südpark</td><td>12:32</td>";
+};
+
+const btn3t = document.querySelector('#textRow3');
+btn3t.onclick = function () {
+  let line = document.getElementById("tr3");
+  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+};
+
+const btn4d = document.querySelector('#departure4');
+btn4d.onclick = function () {
+  let line = document.getElementById("tr4");
+  line.innerHTML = "<td>5</td><td>Bad Dürrenberg</td><td>12:35</td>";
+};
+
+const btn4t = document.querySelector('#textRow4');
+btn4t.onclick = function () {
+  let line = document.getElementById("tr4");
+  line.innerHTML = "<td colspan='3'>TEXTTEXTTEXTTEXTTEXTTEXT</td>";
+};
+
+const btn4i = document.querySelector('#infoText4');
+btn4i.onclick = function () {
+  let line = document.getElementById("tr4");
+  line.innerHTML = "<td> i </td><td colspan='2'> *** Bauarbeiten im Bereich Marktplatz *** </td>";
+};
