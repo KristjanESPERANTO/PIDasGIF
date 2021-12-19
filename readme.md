@@ -18,13 +18,16 @@ Create an animated GIF file to simulate a passenger information display.
 ## Todo
 
 - Working Radio Buttons
-- Details for Third-Party
 - GitHub website
 - GitHub button in index.html
 - Allow user to define animation speed
 
 ## Third-Party
 
-- 24 LED
-- html2canvas
-- jsgif
+This is an overview of the third-party software and data we use. Many thanks to the open source community, especially to the authors of the following projects! ❤️ 🍻
+
+| software  | license  | version   | purpose   |
+| --------- | -------- | --------- | --------- |
+| [24 LED](https://fonts2u.com/24-led.font) | GPL (General Public License) with font-exception and OFL (Open Font License) | 0.001 2009 | Font |
+|[html2canvas](https://github.com/niklasvh/html2canvas/) | MIT | 1.3.3 | Convert the table to a canvas |
+|[jsgif](https://github.com/egfx/jsgif) | MIT | 2021-03-07 | Convert canvases to animated GIF |
