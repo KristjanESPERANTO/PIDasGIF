@@ -17,7 +17,7 @@ function addCanvas() {
 function mergeCanvases() {
   var encoder = new GIFEncoder();
   encoder.setRepeat(0);
-  encoder.setDelay(1500);
+  encoder.setDelay(slider.value);
   let canvases = document.getElementsByTagName("canvas");
 
   encoder.setSize(canvasWidth, canvasHeight);
@@ -103,3 +103,11 @@ btn4i.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td> i </td><td colspan='2'> *** Bauarbeiten im Bereich Marktplatz *** </td>";
 };
+
+let slider = document.getElementById("slider");
+let output = document.getElementById("intervalValue");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
