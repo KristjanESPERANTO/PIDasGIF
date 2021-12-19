@@ -59,7 +59,7 @@ td * {
 #animationContainer {
   visibility: hidden;
   width: 250px;
-  margin:  25px auto;
+  margin: 25px auto;
 }
 
 #gifAnimationContainer,
@@ -104,12 +104,12 @@ footer > a {
 
 #slider {
   -webkit-appearance: none;
+  margin: 5px;
   width: 100%;
   height: 25px;
   background: #394e3f;
   outline: none;
   opacity: 0.7;
-  -webkit-transition: 0.2s;
   transition: opacity 0.2s;
 }
 
@@ -118,11 +118,10 @@ footer > a {
 }
 
 #slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
   width: 25px;
   height: 25px;
-  background: #04aa6d;
+  background: #737979;
   cursor: pointer;
 }
 
@@ -131,4 +130,21 @@ footer > a {
   height: 25px;
   background: #04aa6d;
   cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  padding: 0.75em 1em;
+  font-size: 16px;
+  color: #dfdedf;
+  background: #7e7d70;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background: #5e5d60;
 }
