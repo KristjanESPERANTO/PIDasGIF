@@ -52,7 +52,7 @@ table {
   font-size: 64px;
   color: yellow;
   background-color: black;
-  font-family: "24 LED";
+  font-family: "24 LED", sans-serif;
 }
 
 .textRow {
