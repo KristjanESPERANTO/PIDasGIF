@@ -8,6 +8,8 @@
 
 table {
   table-layout: fixed;
+  border-spacing: 0;
+  padding: 5px 10px;
 }
 
 td {
@@ -16,35 +18,46 @@ td {
   overflow: hidden;
 }
 
+col:first-child {
+  width: 90px;
+  padding: 0 5px 0 0;
+}
+
 td:first-child {
-  min-width: 3ch;
   text-align: left;
+}
+
+col:nth-child(2) {
+  width: 100%;
+  padding: 0;
+  padding-left: 5px;
 }
 
 td:nth-child(2) {
-  width: 20ch;
-  max-width: 20ch;
-  padding-left: 5px;
   text-align: left;
 }
 
-td:last-child {
-  min-width: 6ch;
-  padding-left: 5px;
+col:last-child {
+  width: 178px;
+  padding: 0 0 0 5px;
+}
+
+#wrapper,
+table {
+  width: 900px;
+  height: 300px;
 }
 
 #wrapper {
-  padding: 10px;
-  font-size: 400%;
+  font-size: 64px;
   color: yellow;
   background-color: black;
-  width: 30ch;
   font-family: "24 LED";
 }
 
 .textRow {
   text-align: center !important;
-  width: 30ch;
+
 }
 
 /* Prevent line breaks */
@@ -53,7 +66,7 @@ td br {
 }
 
 td * {
-  display: inline-block;
+  display: inline flow-root;
 }
 
 #animationContainer {
