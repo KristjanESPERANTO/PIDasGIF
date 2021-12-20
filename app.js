@@ -1,6 +1,6 @@
 "use strict";
 
-/*global html2canvas, GIFEncoder*/
+/*global html2canvas, GIFEncoder, encode64*/
 /*eslint no-undef: "error"*/
 
 let canvasHeight;
