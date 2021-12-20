@@ -67,12 +67,6 @@ function downloadCanvas() {
   document.body.removeChild(tmpLink);
 }
 
-let btnAddSlide = document.getElementById("canvasButton");
-btnAddSlide.addEventListener("click", addCanvas);
-
-let btnCreateAnimation = document.getElementById("createAnimationButton");
-btnCreateAnimation.addEventListener("click", mergeCanvases);
-
 const btn1d = document.querySelector('#departure1');
 btn1d.onclick = function () {
   let line = document.getElementById("tr1");

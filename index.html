@@ -84,11 +84,11 @@
     </div>
 
     <div id="controls">
-      <button id='canvasButton'>Add Slide</button>
-      <button onClick="window.location.reload(true);">Reload Page</button>
+      <button onClick="addCanvas()">Add Slide</button>
+      <button onClick="window.location.reload(true)">Reload Page</button>
     </div>
     <div id="animationContainer">
-      <button id='createAnimationButton'>Create Animation</button>
+      <button onClick="mergeCanvases()">Create Animation</button>
       <div>
         <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
         <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
