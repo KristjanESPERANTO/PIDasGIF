@@ -6,8 +6,8 @@ let canvasCounter = 0;
 
 let slider = document.getElementById("slider");
 let intervalValue = document.getElementById("intervalValue");
-intervalValue.innerHTML = slider.value;
-slider.oninput = function () { intervalValue.innerHTML = this.value; }
+intervalValue.innerText = slider.value;
+slider.oninput = function () { intervalValue.innerText = this.value; };
 
 function addCanvas() {
   let wrapper = document.getElementById("wrapper");
@@ -72,43 +72,43 @@ function downloadCanvas() {
   document.body.removeChild(tmpLink);
 }
 
-const btn1d = document.querySelector('#departure1');
+const btn1d = document.querySelector("#departure1");
 btn1d.onclick = function () {
   let line = document.getElementById("tr1");
   line.innerHTML = "<td>8</td><td>Elsa-Brändström-Str.</td><td>sofort</td>";
 };
 
-const btn1t = document.querySelector('#textRow1');
+const btn1t = document.querySelector("#textRow1");
 btn1t.onclick = function () {
   let line = document.getElementById("tr1");
   line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
 };
 
-const btn2d = document.querySelector('#departure2');
+const btn2d = document.querySelector("#departure2");
 btn2d.onclick = function () {
   let line = document.getElementById("tr2");
   line.innerHTML = "<td>351</td><td>Starpark</td><td>2 min</td>";
 };
 
-const btn2t = document.querySelector('#textRow2');
+const btn2t = document.querySelector("#textRow2");
 btn2t.onclick = function () {
   let line = document.getElementById("tr2");
   line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
 };
 
-const btn3d = document.querySelector('#departure3');
+const btn3d = document.querySelector("#departure3");
 btn3d.onclick = function () {
   let line = document.getElementById("tr3");
   line.innerHTML = "<td>34</td><td>Heide-Uniklinikum</td><td>12:32</td>";
 };
 
-const btn3t = document.querySelector('#textRow3');
+const btn3t = document.querySelector("#textRow3");
 btn3t.onclick = function () {
   let line = document.getElementById("tr3");
   line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
 };
 
-const btn4d = document.querySelector('#departure4');
+const btn4d = document.querySelector("#departure4");
 btn4d.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td>5</td><td>Bad Dürrenberg</td><td>12:35</td>";
@@ -116,7 +116,7 @@ btn4d.onclick = function () {
   shiftButton.style.display = "none";
 };
 
-const btn4t = document.querySelector('#textRow4');
+const btn4t = document.querySelector("#textRow4");
 btn4t.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
@@ -124,7 +124,7 @@ btn4t.onclick = function () {
   shiftButton.style.display = "none";
 };
 
-const btn4i = document.querySelector('#infoText4');
+const btn4i = document.querySelector("#infoText4");
 btn4i.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td> i </td><td colspan='2' id='infoText'>***  Bauarbeiten im Bereich Marktplatz   ***  Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***</td>";
