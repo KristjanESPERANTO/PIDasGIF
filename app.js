@@ -15,10 +15,10 @@ function addCanvas() {
   canvasCounter += 1;
   let animationContainer = document.getElementById("animationContainer");
   if (canvasCounter > 1) {
-    animationContainer.style.visibility = "inherit";
+    animationContainer.style.visibility = "unset";
   }
   let slidesContainer = document.getElementById("slidesContainer");
-  slidesContainer.style.visibility = "inherit";
+  slidesContainer.style.display = "unset";
   let slidesCounter = document.getElementById("slides");
   slidesCounter.innerText = canvasCounter;
 
@@ -51,7 +51,7 @@ function mergeCanvases() {
   gifAnimation.width = canvasWidth;
   gifAnimation.height = canvasHeight;
   let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-  gifAnimationContainer.style.visibility = "inherit";
+  gifAnimationContainer.style.display = "unset";
 }
 
 function shiftLine() {
@@ -129,5 +129,5 @@ btn4i.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td> i </td><td colspan='2' id='infoText'>***  Bauarbeiten im Bereich Marktplatz   ***  Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***</td>";
   let shiftButton = document.getElementById("shiftButton");
-  shiftButton.style.display = "";
+  shiftButton.style.display = "unset";
 };

@@ -42,7 +42,8 @@
           </tr>
           <tr id="tr4">
             <td> i </td>
-            <td colspan="2" id="infoText">***  Bauarbeiten im Bereich Marktplatz   ***  Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***</td>
+            <td colspan="2" id="infoText">*** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz
+              *** Bauarbeiten im Bereich Marktplatz ***</td>
           </tr>
         </table>
       </div>
@@ -83,15 +84,17 @@
     </div>
 
     <div id="controls">
-      <button onClick="addCanvas()">Add Slide</button>
-      <button onClick="shiftLine()" id="shiftButton">Shift Info Text</button>
-      <button onClick="window.location.reload(true)">Reload Page</button>
-    </div>
-    <div id="animationContainer">
-      <button onClick="mergeCanvases()">Create Animation</button>
       <div>
-        <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
-        <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
+        <button onClick="addCanvas()">Add Slide</button>
+        <button onClick="shiftLine()" id="shiftButton">Shift Info Text</button>
+        <button onClick="window.location.reload(true)">Reload Page</button>
+      </div>
+      <div id="animationContainer">
+        <button onClick="mergeCanvases()">Create Animation</button>
+        <div>
+          <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
+          <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
+        </div>
       </div>
     </div>
 

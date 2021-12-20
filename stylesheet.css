@@ -71,18 +71,19 @@ td * {
 #animationContainer {
   visibility: hidden;
   width: 250px;
-  margin: 25px auto;
-}
-
-#gifAnimationContainer,
-#slidesContainer {
-  visibility: hidden;
+  margin: auto 25px;
 }
 
 #container {
   display: flex;
   margin: 25px auto;
   width: max-content;
+}
+
+#controls {
+  display: flex;
+  width: max-content;
+  margin: auto;
 }
 
 #lineControls {
@@ -158,4 +159,10 @@ button {
 
 button:hover {
   background: #5e5d60;
+}
+
+/* Don't display at start */
+#gifAnimationContainer,
+#slidesContainer {
+  display: none;
 }
