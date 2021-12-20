@@ -1,5 +1,8 @@
 "use strict";
 
+/*global html2canvas, GIFEncoder*/
+/*eslint no-undef: "error"*/
+
 let canvasHeight;
 let canvasWidth;
 let canvasCounter = 0;
