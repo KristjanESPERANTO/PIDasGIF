@@ -54,6 +54,11 @@ function mergeCanvases() {
   gifAnimationContainer.style.visibility = "inherit";
 }
 
+function shiftLine() {
+  let shiftLine = document.getElementById("infoText");
+  shiftLine.innerText = shiftLine.innerText.slice(1);
+}
+
 function downloadCanvas() {
   let canvas = document.getElementById("gifAnimation");
   let image = canvas.src;
@@ -94,7 +99,7 @@ btn2t.onclick = function () {
 const btn3d = document.querySelector('#departure3');
 btn3d.onclick = function () {
   let line = document.getElementById("tr3");
-  line.innerHTML = "<td>34</td><td>Südpark</td><td>12:32</td>";
+  line.innerHTML = "<td>34</td><td>Heide-Uniklinikum</td><td>12:32</td>";
 };
 
 const btn3t = document.querySelector('#textRow3');
@@ -107,16 +112,22 @@ const btn4d = document.querySelector('#departure4');
 btn4d.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td>5</td><td>Bad Dürrenberg</td><td>12:35</td>";
+  let shiftButton = document.getElementById("shiftButton");
+  shiftButton.style.display = "none";
 };
 
 const btn4t = document.querySelector('#textRow4');
 btn4t.onclick = function () {
   let line = document.getElementById("tr4");
   line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
+  let shiftButton = document.getElementById("shiftButton");
+  shiftButton.style.display = "none";
 };
 
 const btn4i = document.querySelector('#infoText4');
 btn4i.onclick = function () {
   let line = document.getElementById("tr4");
-  line.innerHTML = "<td> i </td><td colspan='2'> *** Bauarbeiten im Bereich Marktplatz *** </td>";
+  line.innerHTML = "<td> i </td><td colspan='2' id='infoText'>***  Bauarbeiten im Bereich Marktplatz   ***  Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***</td>";
+  let shiftButton = document.getElementById("shiftButton");
+  shiftButton.style.display = "";
 };
