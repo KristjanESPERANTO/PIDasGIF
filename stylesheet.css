@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
   font-family: "24 LED";
   src: url("./third-party/24_LED/24_LED.eot?") format("eot"),
     url("./third-party/24_LED/24_LED.woff") format("woff"),
@@ -20,7 +20,6 @@ td {
 
 col:first-child {
   width: 90px;
-  padding: 0 5px 0 0;
 }
 
 td:first-child {
@@ -29,8 +28,6 @@ td:first-child {
 
 col:nth-child(2) {
   width: 100%;
-  padding: 0;
-  padding-left: 5px;
 }
 
 td:nth-child(2) {
@@ -39,7 +36,6 @@ td:nth-child(2) {
 
 col:last-child {
   width: 178px;
-  padding: 0 0 0 5px;
 }
 
 #wrapper,
