@@ -14,12 +14,18 @@ slider.oninput = function () { intervalValue.innerText = this.value; };
 
 let slidesCounter = document.getElementById("slides");
 
+function deleteSlide(e) {
+  e.parentNode.parentNode.removeChild(e.parentNode);
+  canvasCounter = canvasCounter - 1;
+  slidesCounter.innerText = canvasCounter;
+}
+
 function addCanvas() {
   let wrapper = document.getElementById("wrapper");
   const lineBreak = document.createElement("br");
   const canvasContainer = document.createElement("div");
   const deleteSpan = document.createElement("button");
-  deleteSpan.onclick = function () { delete_row(this); };
+  deleteSpan.onclick = function () { deleteSlide(this); };
   deleteSpan.innerText = "Delete";
 
   canvasCounter += 1;
@@ -62,12 +68,6 @@ function mergeCanvases() {
   gifAnimation.height = canvasHeight;
   let gifAnimationContainer = document.getElementById("gifAnimationContainer");
   gifAnimationContainer.style.display = "unset";
-}
-
-function delete_row(e) {
-  e.parentNode.parentNode.removeChild(e.parentNode);
-  canvasCounter = canvasCounter - 1;
-  slidesCounter.innerText = canvasCounter;
 }
 
 function shiftLine() {
