@@ -17,8 +17,6 @@ Create an animated GIF file to simulate a passenger information display.
 
 ## Todo
 
-- Button to delete slide(s)
-- Setting for font size (each row)
 - Refactoring
 
 ## Third-Party

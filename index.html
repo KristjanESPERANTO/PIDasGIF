@@ -19,25 +19,25 @@
     <h2>You can edit this table</h2>
     <div id="container">
       <div id="wrapper">
-        <table contenteditable="true">
+        <table contenteditable="true" id="pidTable">
           <colgroup>
-            <col>
-            <col>
-            <col>
+            <col id="lineColumn">
+            <col id="destinationColumn">
+            <col id="departureColumn">
           </colgroup>
           <tr id="tr1">
-            <td>8</td>
-            <td>Elsa-Brändström-Str.</td>
+            <td class="lineCell">8</td>
+            <td class="destinationCell">Elsa-Brändström-Str.</td>
             <td>sofort</td>
           </tr>
           <tr id="tr2">
-            <td>351</td>
-            <td>Starpark</td>
+            <td class="lineCell">351</td>
+            <td class="destinationCell">Starpark</td>
             <td>2 min</td>
           </tr>
           <tr id="tr3">
-            <td>34</td>
-            <td>Heide-Uniklinikum</td>
+            <td class="lineCell">34</td>
+            <td class="destinationCell">Heide-Uniklinikum</td>
             <td>12:32</td>
           </tr>
           <tr id="tr4">
@@ -48,38 +48,65 @@
         </table>
       </div>
 
-      <div id="lineControls">
-        <div>
-          <span>Row 1: </span>
-          <input type="radio" id="departure1" name="line_one" value="departure" checked>
-          <label for="departure1" checked>Departure</label>
-          <input type="radio" id="textRow1" name="line_one" value="textRow">
-          <label for="textRow1">Text Row</label>
-        </div>
-        <div>
-          <span>Row 2: </span>
-          <input type="radio" id="departure2" name="line_two" value="departure" checked>
-          <label for="departure2">Departure</label>
-          <input type="radio" id="textRow2" name="line_two" value="textRow">
-          <label for="textRow2">Text Row</label>
-        </div>
-        <div>
-          <span>Row 3: </span>
-          <input type="radio" id="departure3" name="line_three" value="departure" checked>
-          <label for="departure3">Departure</label>
-          <input type="radio" id="textRow3" name="line_three" value="textRow">
-          <label for="textRow3">Text Row</label>
-        </div>
-        <div>
-          <span>Row 4: </span>
-          <input type="radio" id="departure4" name="line_four" value="departure">
-          <label for="departure4">Departure</label>
-          <input type="radio" id="textRow4" name="line_four" value="textRow">
-          <label for="textRow4">Text Row</label>
-          <input type="radio" id="infoText4" name="line_four" value="infoText" checked>
-          <label for="infoText4">Info Text</label>
-        </div>
-
+      <div>
+        <table id="lineControls">
+          <tr>
+            <th>Departure</th>
+            <th>Text</th>
+            <th>Info</th>
+            <th>Font Size</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" id="departure1" name="line_one" value="departure" checked>
+            </td>
+            <td>
+              <input type="radio" id="textRow1" name="line_one" value="textRow">
+            </td>
+            <td></td>
+            <td>
+              <input type="number" id="fontSize1" value=64 style="width:50px">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" id="departure2" name="line_two" value="departure" checked>
+            </td>
+            <td>
+              <input type="radio" id="textRow2" name="line_two" value="textRow">
+            </td>
+            <td></td>
+            <td>
+              <input type="number" id="fontSize2" value=64 style="width:50px">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" id="departure3" name="line_three" value="departure" checked>
+            </td>
+            <td>
+              <input type="radio" id="textRow3" name="line_three" value="textRow">
+            </td>
+            <td></td>
+            <td>
+              <input type="number" id="fontSize3" value=64 style="width:50px">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="radio" id="departure4" name="line_four" value="departure">
+            </td>
+            <td>
+              <input type="radio" id="textRow4" name="line_four" value="textRow">
+            </td>
+            <td>
+              <input type="radio" id="infoText4" name="line_four" value="infoText" checked>
+            </td>
+            <td>
+              <input type="number" id="fontSize4" value=64 style="width:50px">
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
 
