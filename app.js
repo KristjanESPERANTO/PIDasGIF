@@ -73,7 +73,7 @@ function mergeCanvases() {
 function shiftLine() {
   let shiftLine = document.getElementById("infoText");
   // Replace spaces to prevent problems when spaces are at the beginning at a string while shifting
-  shiftLine.innerHTML = shiftLine.innerHTML.replaceAll(" ", "&nbsp;");
+  shiftLine.innerText = shiftLine.innerText.replaceAll(" ", "\u00a0");
   // Remove the first character
   shiftLine.innerText = shiftLine.innerText.slice(1);
 }
