@@ -17,6 +17,8 @@ Create an animated GIF file to simulate a passenger information display.
 
 ## Todo
 
+- Check if [gif.js](https://github.com/jnordberg/gif.js) can replace jsgif - gif.js should be faster
+- Video export option: ogm, wmv, mpg, webm, ogv, mov, asx, mpeg, mp4, m4v or avi
 - Refactoring
 
 ## Third-Party
