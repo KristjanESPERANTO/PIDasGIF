@@ -9,8 +9,8 @@ let canvasCounter = 0;
 
 const slider = document.getElementById("slider");
 let intervalValue = document.getElementById("intervalValue");
-intervalValue.innerText = slider.value;
-slider.oninput = function () { intervalValue.innerText = this.value; };
+intervalValue.innerText = slider.value + " ms";
+slider.oninput = function () { intervalValue.innerText = this.value + " ms"; };
 
 let slidesCounter = document.getElementById("slides");
 
@@ -57,32 +57,42 @@ function addCanvas() {
 }
 
 function mergeCanvases() {
-  let browserSupportsWebmDecoding = true;
+  let canvases = document.getElementsByTagName("canvas");
+
   let gifEncoder = new GIFEncoder();
-  let videoWriter = new WebMWriter({
-    quality: 0.75,
-    frameDuration: parseInt(slider.value)
-  });
 
   gifEncoder.setRepeat(0);
   gifEncoder.setDelay(slider.value);
   gifEncoder.setSize(canvasWidth, canvasHeight);
   gifEncoder.start();
 
-  let canvases = document.getElementsByTagName("canvas");
-
   for (let canvas of canvases) {
     let context = canvas.getContext("2d");
     gifEncoder.addFrame(context);
-    try {
-      videoWriter.addFrame(canvas);
-    }
-    catch (err) {
-      browserSupportsWebmDecoding = false;
-    }
   }
 
   finalizeGif(gifEncoder);
+
+  let browserSupportsWebmDecoding = true;
+  let videoLenght = 15000;
+  let frameDuration = parseInt(slider.value);
+  let videoWriter = new WebMWriter({
+    quality: 0.75,
+    frameDuration: frameDuration
+  });
+
+  while (videoLenght > 0 && browserSupportsWebmDecoding) {
+    for (let canvas of canvases) {
+      try {
+        videoWriter.addFrame(canvas);
+        videoLenght -= frameDuration;
+      }
+      catch (err) {
+        browserSupportsWebmDecoding = false;
+      }
+    }
+  }
+
 
   if (browserSupportsWebmDecoding) {
     finalizeVideo(videoWriter);
@@ -101,7 +111,7 @@ function finalizeGif(gifEncoder) {
   gifAnimation.src = "data:image/gif;base64," + encode64(gifEncoder.stream().getData());
   gifAnimation.width = canvasWidth;
   gifAnimation.height = canvasHeight;
-  document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifAnimation.src.length / 1300) + "kB";
+  document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifAnimation.src.length / 1300) + " kB";
 }
 
 function finalizeVideo(videoWriter) {
@@ -109,7 +119,7 @@ function finalizeVideo(videoWriter) {
     let url = (window.webkitURL || window.URL).createObjectURL(webMBlob);
     document.getElementById('video').src = url;
     document.getElementById('downloadVideo').href = url;
-    document.getElementById('videoSize').innerHTML = "~" + Math.ceil(webMBlob.size / 1024) + "kB";
+    document.getElementById('videoSize').innerHTML = "~" + Math.ceil(webMBlob.size / 1024) + " kB";
   });
 }
 
