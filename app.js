@@ -75,7 +75,7 @@ function mergeCanvases() {
 
   let browserSupportsWebmDecoding = true;
   let videoLenght = 15000;
-  let frameDuration = parseInt(slider.value);
+  let frameDuration = parseInt(slider.value, 10);
   let videoWriter = new WebMWriter({
     quality: 0.75,
     frameDuration: frameDuration
