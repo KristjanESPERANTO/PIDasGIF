@@ -17,11 +17,10 @@ Create an animated GIF file to simulate a passenger information display.
 
 ## Todo
 
-- Determine video length
+- Check if [gif.js](https://github.com/jnordberg/gif.js) can replace jsgif - gif.js should be faster
+- Add slider for video length
 - Spinner after "Create Animation"
 - Check if [ccapture.js](https://github.com/spite/ccapture.js/) can replace jsgif - ccapture.js should be faster and can output video
-- Check if [gif.js](https://github.com/jnordberg/gif.js) can replace jsgif - gif.js should be faster
-- Video export option: ogm, wmv, mpg, webm, ogv, mov, asx, mpeg, mp4, m4v or avi
 - Refactoring
 - Find out why the font color is not so clear in the video
 - Find out why under Firefox the GIF container isn't 900 x 600 px
