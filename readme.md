@@ -20,7 +20,6 @@ Create an animated GIF file to simulate a passenger information display.
 - Browser support WebM
 - Determine video length
 - Spinner after "Create Animation"
-- Seems that the video encoder has a problem with many (>30) slides
 - Check if [ccapture.js](https://github.com/spite/ccapture.js/) can replace jsgif - ccapture.js should be faster and can output video
 - Check if [gif.js](https://github.com/jnordberg/gif.js) can replace jsgif - gif.js should be faster
 - Video export option: ogm, wmv, mpg, webm, ogv, mov, asx, mpeg, mp4, m4v or avi
