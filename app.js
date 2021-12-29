@@ -59,7 +59,7 @@ function addCanvas() {
 function mergeCanvases() {
   let gifEncoder = new GIFEncoder();
   let videoWriter = new WebMWriter({
-    quality: 0.95,
+    quality: 0.75,
     frameDuration: parseInt(slider.value)
   });
 
