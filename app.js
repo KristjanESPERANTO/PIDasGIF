@@ -78,7 +78,7 @@ function mergeCanvases() {
       videoWriter.addFrame(canvas);
     }
     catch (err) {
-      browserSupportsWebmDecoding = false
+      browserSupportsWebmDecoding = false;
     }
   }
 
@@ -91,7 +91,7 @@ function mergeCanvases() {
     document.getElementById("video-download-container").innerText = "";
   }
 
-  let animatigifAnimationContaineronContainer = document.getElementById("gifAnimationContainer");
+  let gifAnimationContainer = document.getElementById("gifAnimationContainer");
   gifAnimationContainer.style.display = "unset";
 }
 
