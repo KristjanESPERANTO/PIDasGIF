@@ -57,6 +57,7 @@ function addCanvas() {
 }
 
 function mergeCanvases() {
+  let browserSupportsWebmDecoding = true;
   let gifEncoder = new GIFEncoder();
   let videoWriter = new WebMWriter({
     quality: 0.75,
@@ -73,11 +74,25 @@ function mergeCanvases() {
   for (let canvas of canvases) {
     let context = canvas.getContext("2d");
     gifEncoder.addFrame(context);
-    videoWriter.addFrame(canvas);
+    try {
+      videoWriter.addFrame(canvas);
+    }
+    catch (err) {
+      browserSupportsWebmDecoding = false
+    }
   }
 
   finalizeGif(gifEncoder);
-  finalizeVideo(videoWriter);
+
+  if (browserSupportsWebmDecoding) {
+    finalizeVideo(videoWriter);
+  } else {
+    document.getElementById("video-container").innerText = "Your browser does not support decoding of WebP Base64 URLs. As a result, the animation cannot be created as a video.";
+    document.getElementById("video-download-container").innerText = "";
+  }
+
+  let animatigifAnimationContaineronContainer = document.getElementById("gifAnimationContainer");
+  gifAnimationContainer.style.display = "unset";
 }
 
 function finalizeGif(gifEncoder) {
@@ -86,8 +101,6 @@ function finalizeGif(gifEncoder) {
   gifAnimation.src = "data:image/gif;base64," + encode64(gifEncoder.stream().getData());
   gifAnimation.width = canvasWidth;
   gifAnimation.height = canvasHeight;
-  let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-  gifAnimationContainer.style.display = "unset";
   document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifAnimation.src.length / 1300) + "kB";
 }
 
