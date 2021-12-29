@@ -6,6 +6,20 @@
     url("./third-party/24_LED/24_LED.svg#24LED") format("svg");
 }
 
+.grid-container {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 900px 450px;
+  width: max-content;
+}
+.grid-item {
+  margin: auto;
+}
+
+.grid-item:nth-child(even) {
+  margin-left: 20px;
+}
+
 #pidTable {
   table-layout: fixed;
   border-spacing: 0;
@@ -67,16 +81,10 @@ td * {
   margin: auto 25px;
 }
 
-#container {
-  display: flex;
-  margin: 25px auto;
-  width: max-content;
-}
-
 #controls {
   display: flex;
   width: max-content;
-  margin: auto;
+  margin: 25px auto;
 }
 
 #lineControls {

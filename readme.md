@@ -17,10 +17,15 @@ Create an animated GIF file to simulate a passenger information display.
 
 ## Todo
 
+- Browser support WebM
+- Determine video length
+- Spinner after "Create Animation"
+- Seems that the video encoder has a problem with many (>30) slides
 - Check if [ccapture.js](https://github.com/spite/ccapture.js/) can replace jsgif - ccapture.js should be faster and can output video
 - Check if [gif.js](https://github.com/jnordberg/gif.js) can replace jsgif - gif.js should be faster
 - Video export option: ogm, wmv, mpg, webm, ogv, mov, asx, mpeg, mp4, m4v or avi
 - Refactoring
+- Find out why the font color is not so clear in the video
 
 ## Third-Party
 
@@ -31,3 +36,4 @@ This is an overview of the third-party software and data we use. Many thanks to 
 | [24 LED](https://fonts2u.com/24-led.font) | General Public License with font-exception and Open Font License | 0.001 2009 | Font |
 | [html2canvas](https://github.com/niklasvh/html2canvas/) | MIT | 1.3.3 | Convert the table to a canvas |
 | [jsgif](https://github.com/egfx/jsgif) | MIT | 2021-03-07 | Convert canvases to animated GIF |
+| [webm-writer-js](https://github.com/thenickdude/webm-writer-js) | WTFPLv2 | 0.3.0 | Convert canvases to WebM |

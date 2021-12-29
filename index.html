@@ -17,8 +17,8 @@
 
   <main>
     <h2>You can edit this table</h2>
-    <div id="container">
-      <div id="wrapper">
+    <div class="grid-container">
+      <div class="grid-item" id="wrapper">
         <table contenteditable="true" spellcheck="false" id="pidTable">
           <colgroup>
             <col id="lineColumn">
@@ -47,8 +47,8 @@
           </tr>
         </table>
       </div>
+      <div class="grid-item">
 
-      <div>
         <table id="lineControls">
           <tr>
             <th>Departure</th>
@@ -127,13 +127,30 @@
 
     <div id="gifAnimationContainer">
       <h2>Animation Result</h2>
-      <img id="gifAnimation"><br>
-      <button onclick="downloadCanvas()">💾 Download</button>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img id="gifAnimation">
+        </div>
+        <div class="grid-item">
+          <button onclick="downloadCanvas()">💾 Download GIF</button>
+          <div id="gifSize"></div>
+        </div>
+        <div class="grid-item">
+          <video id="video" controls autoplay loop></video>
+        </div>
+        <div class="grid-item">
+          <a style="text-decoration: none; color:inherit" id="downloadVideo" download="video.webm">
+            <button>💾 Download Video</button>
+            <div id="videoSize"></div>
+          </a>
+        </div>
+      </div>
     </div>
 
     <div id="slidesContainer">
       <h2>Slides:<span id="slides"></span></h2>
     </div>
+
   </main>
 
   <div id="github">
@@ -151,6 +168,7 @@
   <script src="./third-party/jsgif/LZWEncoder.js"></script>
   <script src="./third-party/jsgif/NeuQuant.js"></script>
   <script src="./third-party/jsgif/GIFEncoder.js"></script>
+  <script src="./third-party/webm-writer-js/webm-writer-0.3.0.js"></script>
   <script src="./app.js"></script>
 
 </body>

@@ -7,7 +7,7 @@ let canvasHeight;
 let canvasWidth;
 let canvasCounter = 0;
 
-let slider = document.getElementById("slider");
+const slider = document.getElementById("slider");
 let intervalValue = document.getElementById("intervalValue");
 intervalValue.innerText = slider.value;
 slider.oninput = function () { intervalValue.innerText = this.value; };
@@ -15,18 +15,29 @@ slider.oninput = function () { intervalValue.innerText = this.value; };
 let slidesCounter = document.getElementById("slides");
 
 function deleteSlide(e) {
-  e.parentNode.parentNode.removeChild(e.parentNode);
+  e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
   canvasCounter = canvasCounter - 1;
   slidesCounter.innerText = canvasCounter;
 }
 
 function addCanvas() {
   let wrapper = document.getElementById("wrapper");
-  const lineBreak = document.createElement("br");
+
+  const gridContainer = document.createElement("div");
+  gridContainer.className = "grid-container";
+
   const canvasContainer = document.createElement("div");
-  const deleteSpan = document.createElement("button");
-  deleteSpan.onclick = function () { deleteSlide(this); };
-  deleteSpan.innerText = "Delete";
+  canvasContainer.className = "grid-item";
+  gridContainer.appendChild(canvasContainer);
+
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "grid-item";
+  gridContainer.appendChild(buttonContainer);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.onclick = function () { deleteSlide(this); };
+  deleteButton.innerText = "Delete";
+  buttonContainer.appendChild(deleteButton);
 
   canvasCounter += 1;
   let animationContainer = document.getElementById("animationContainer");
@@ -35,39 +46,58 @@ function addCanvas() {
   }
   let slidesContainer = document.getElementById("slidesContainer");
   slidesContainer.style.display = "unset";
+  slidesContainer.appendChild(gridContainer);
   slidesCounter.innerText = canvasCounter;
 
   html2canvas(wrapper).then(function (canvas) {
     canvasHeight = canvas.height;
     canvasWidth = canvas.width;
     canvasContainer.appendChild(canvas);
-    canvasContainer.appendChild(deleteSpan);
-    slidesContainer.appendChild(canvasContainer);
-    slidesContainer.appendChild(lineBreak);
   });
 }
 
 function mergeCanvases() {
-  let encoder = new GIFEncoder();
-  encoder.setRepeat(0);
-  encoder.setDelay(slider.value);
-  let canvases = document.getElementsByTagName("canvas");
+  let gifEncoder = new GIFEncoder();
+  let videoWriter = new WebMWriter({
+    quality: 0.95,
+    frameDuration: slider.value,
+  });
 
-  encoder.setSize(canvasWidth, canvasHeight);
-  encoder.start();
+  gifEncoder.setRepeat(0);
+  gifEncoder.setDelay(slider.value);
+  gifEncoder.setSize(canvasWidth, canvasHeight);
+  gifEncoder.start();
+
+  let canvases = document.getElementsByTagName("canvas");
 
   for (let canvas of canvases) {
     let context = canvas.getContext("2d");
-    encoder.addFrame(context);
+    gifEncoder.addFrame(context);
+    videoWriter.addFrame(canvas);
   }
 
-  encoder.finish();
+  finalizeGif(gifEncoder);
+  finalizeVideo(videoWriter);
+}
+
+function finalizeGif(gifEncoder) {
+  gifEncoder.finish();
   let gifAnimation = document.getElementById("gifAnimation");
-  gifAnimation.src = "data:image/gif;base64," + encode64(encoder.stream().getData());
+  gifAnimation.src = "data:image/gif;base64," + encode64(gifEncoder.stream().getData());
   gifAnimation.width = canvasWidth;
   gifAnimation.height = canvasHeight;
   let gifAnimationContainer = document.getElementById("gifAnimationContainer");
   gifAnimationContainer.style.display = "unset";
+  document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifAnimation.src.length / 1300) + "kB";
+}
+
+function finalizeVideo(videoWriter) {
+  videoWriter.complete().then(function (webMBlob) {
+    let url = (window.webkitURL || window.URL).createObjectURL(webMBlob);
+    document.getElementById('video').src = url;
+    document.getElementById('downloadVideo').href = url;
+    document.getElementById('videoSize').innerHTML = "~" + Math.ceil(webMBlob.size / 1024) + "kB";
+  });
 }
 
 function shiftLine() {
