@@ -113,7 +113,10 @@
     <div id="controls">
       <div>
         <button onClick="addCanvas()">Add Slide</button>
-        <button onClick="shiftLine()" ondblclick="shiftLineAddCanvas()" id="shiftButton">Shift Info Text</button>
+        <span id="shiftButton">
+          <button onClick="shiftLine()">Shift Info Text</button>
+          <button onClick="shiftLineAddCanvas()">Shift Info Text <br>and Add Slide</button>
+        </span>
         <button onClick="window.location.reload(true)">Reload Page</button>
       </div>
       <div id="animationContainer">
