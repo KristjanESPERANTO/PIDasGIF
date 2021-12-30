@@ -74,18 +74,20 @@ function mergeCanvases() {
   finalizeGif(gifEncoder);
 
   let browserSupportsWebmDecoding = true;
-  let videoLenght = 15000;
+  let maxVideoLenght = 15000;
+  let videoLenght = 0;
   let frameDuration = parseInt(slider.value, 10);
   let videoWriter = new WebMWriter({
     quality: 0.75,
     frameDuration: frameDuration
   });
 
-  while (videoLenght > 0 && browserSupportsWebmDecoding) {
+
+  while (videoLenght + canvases.length * frameDuration <= maxVideoLenght && browserSupportsWebmDecoding) {
     for (let canvas of canvases) {
       try {
         videoWriter.addFrame(canvas);
-        videoLenght -= frameDuration;
+        videoLenght += frameDuration;
       }
       catch (err) {
         browserSupportsWebmDecoding = false;
