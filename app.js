@@ -133,6 +133,11 @@ function shiftLine() {
   shiftLine.innerText = shiftLine.innerText.slice(1);
 }
 
+function shiftLineAddCanvas() {
+  shiftLine();
+  addCanvas();
+}
+
 function downloadCanvas() {
   let canvas = document.getElementById("gifAnimation");
   let image = canvas.src;
