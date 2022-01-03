@@ -58,15 +58,16 @@ function addCanvas() {
 
 function mergeCanvases() {
   let canvases = document.getElementsByTagName("canvas");
+  let frameDuration = parseInt(slider.value, 10);
 
   let gif = new GIF({
-    workers: 1,
+    workers: 2,
     workerScript: './third-party/gif-js/gif.worker.js',
-    quality: 9
+    quality: 6
   });
 
   for (let canvas of canvases) {
-    gif.addFrame(canvas, {delay: parseInt(slider.value, 10)});
+    gif.addFrame(canvas, { delay: frameDuration });
   }
 
   finalizeGif(gif);
@@ -74,7 +75,6 @@ function mergeCanvases() {
   let browserSupportsWebmDecoding = true;
   let maxVideoLenght = 15000;
   let videoLenght = 0;
-  let frameDuration = parseInt(slider.value, 10);
   let videoWriter = new WebMWriter({
     quality: 0.75,
     frameDuration: frameDuration
@@ -101,15 +101,17 @@ function mergeCanvases() {
     document.getElementById("video-download-container").innerText = "";
   }
 
-  let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-  gifAnimationContainer.style.display = "unset";
+
 }
 
 function finalizeGif(gif) {
+  gif.on('finished', function (gifBlob) {
+    let gifAnimation = document.getElementById("gifAnimation");
+    gifAnimation.src = URL.createObjectURL(gifBlob);
+    document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifBlob.size / 1024) + " kB";
 
-  gif.on('finished', function(blob) {
-    let gifAnimation2 = document.getElementById("gifAnimation2");
-    gifAnimation2.src = URL.createObjectURL(blob);
+    let gifAnimationContainer = document.getElementById("gifAnimationContainer");
+    gifAnimationContainer.style.display = "unset";
   });
 
   gif.render();

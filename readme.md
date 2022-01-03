@@ -2,8 +2,6 @@
 
 Create an animated GIF file to simulate a passenger information display.
 
-This fork uses git.js instead of jsgif. It's working, but it's not significantly faster than jsgif. Therefore the idea to switch to git.js is resting for the time being.
-
 ## Exemplary results
 
 ![Exemplary result](images/example01.gif "Exemplary result 1")
@@ -19,9 +17,8 @@ This fork uses git.js instead of jsgif. It's working, but it's not significantly
 
 ## Todo
 
-- Add slider for video length
+- Add slider for maximum video length
 - Spinner after "Create Animation"
-- Check if [ccapture.js](https://github.com/spite/ccapture.js/) can replace jsgif - ccapture.js should be faster and can output video
 - Refactoring
 - Find out why the font color is not so clear in the video
 - Find out why under Firefox the GIF container isn't 900 x 600 px
