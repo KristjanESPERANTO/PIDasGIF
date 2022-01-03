@@ -58,25 +58,23 @@ function addCanvas() {
 
 function mergeCanvases() {
   let canvases = document.getElementsByTagName("canvas");
+  let frameDuration = parseInt(slider.value, 10);
 
-  let gifEncoder = new GIFEncoder();
-
-  gifEncoder.setRepeat(0);
-  gifEncoder.setDelay(slider.value);
-  gifEncoder.setSize(canvasWidth, canvasHeight);
-  gifEncoder.start();
+  let gif = new GIF({
+    workers: 2,
+    workerScript: './third-party/gif-js/gif.worker.js',
+    quality: 6
+  });
 
   for (let canvas of canvases) {
-    let context = canvas.getContext("2d");
-    gifEncoder.addFrame(context);
+    gif.addFrame(canvas, { delay: frameDuration });
   }
 
-  finalizeGif(gifEncoder);
+  finalizeGif(gif);
 
   let browserSupportsWebmDecoding = true;
   let maxVideoLenght = 15000;
   let videoLenght = 0;
-  let frameDuration = parseInt(slider.value, 10);
   let videoWriter = new WebMWriter({
     quality: 0.75,
     frameDuration: frameDuration
@@ -103,17 +101,20 @@ function mergeCanvases() {
     document.getElementById("video-download-container").innerText = "";
   }
 
-  let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-  gifAnimationContainer.style.display = "unset";
+
 }
 
-function finalizeGif(gifEncoder) {
-  gifEncoder.finish();
-  let gifAnimation = document.getElementById("gifAnimation");
-  gifAnimation.src = "data:image/gif;base64," + encode64(gifEncoder.stream().getData());
-  gifAnimation.width = canvasWidth;
-  gifAnimation.height = canvasHeight;
-  document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifAnimation.src.length / 1300) + " kB";
+function finalizeGif(gif) {
+  gif.on('finished', function (gifBlob) {
+    let gifAnimation = document.getElementById("gifAnimation");
+    gifAnimation.src = URL.createObjectURL(gifBlob);
+    document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifBlob.size / 1024) + " kB";
+
+    let gifAnimationContainer = document.getElementById("gifAnimationContainer");
+    gifAnimationContainer.style.display = "unset";
+  });
+
+  gif.render();
 }
 
 function finalizeVideo(videoWriter) {
