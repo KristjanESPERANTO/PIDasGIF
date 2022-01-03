@@ -34,4 +34,7 @@ This is an overview of the third-party software and data we use. Many thanks to 
 | [24 LED](https://fonts2u.com/24-led.font) | General Public License with font-exception and Open Font License | 0.001 2009 | Font |
 | [html2canvas](https://github.com/niklasvh/html2canvas/) | MIT | 1.3.3 | Convert the table to a canvas |
 | [jsgif](https://github.com/egfx/jsgif) | MIT | 2021-03-07 | Convert canvases to animated GIF |
+
+gif.js
+
 | [webm-writer-js](https://github.com/thenickdude/webm-writer-js) | WTFPLv2 | 0.3.0 | Convert canvases to WebM |
