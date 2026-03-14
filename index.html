@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PIDasGIF</title>
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
   <link rel="stylesheet" href="stylesheet.css">
@@ -12,117 +13,105 @@
 
   <header>
     <h1>PIDasGIF</h1>
-    <div>Create an animated GIF to simulate a passenger information display.</div>
+    <p>Create an animated GIF to simulate a passenger information display.</p>
   </header>
 
   <main>
-    <h2>You can edit this table</h2>
-    <div class="grid-container">
-      <div class="grid-item" id="wrapper">
-        <table contenteditable="true" spellcheck="false" id="pidTable">
-          <colgroup>
-            <col id="lineColumn">
-            <col id="destinationColumn">
-            <col id="departureColumn">
-          </colgroup>
-          <tr id="tr1">
-            <td class="lineCell">8</td>
-            <td class="destinationCell">Elsa-Brändström-Str.</td>
-            <td>sofort</td>
-          </tr>
-          <tr id="tr2">
-            <td class="lineCell">351</td>
-            <td class="destinationCell">Starpark</td>
-            <td>2 min</td>
-          </tr>
-          <tr id="tr3">
-            <td class="lineCell">34</td>
-            <td class="destinationCell">Heide-Uniklinikum</td>
-            <td>12:32</td>
-          </tr>
-          <tr id="tr4">
-            <td> i </td>
-            <td colspan="2" id="infoText">*** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz
-              *** Bauarbeiten im Bereich Marktplatz ***</td>
-          </tr>
-        </table>
-      </div>
-      <div class="grid-item">
+    <div class="section">
+      <div class="section-title">Edit the display</div>
+      <div id="displaySection">
+        <div id="wrapperScroll">
+        <div id="wrapper">
+          <table contenteditable="true" spellcheck="false" id="pidTable">
+            <colgroup>
+              <col id="lineColumn">
+              <col id="destinationColumn">
+              <col id="departureColumn">
+            </colgroup>
+            <tr id="tr1">
+              <td class="lineCell">8</td>
+              <td class="destinationCell">Elsa-Br&#228;ndstr&#246;m-Str.</td>
+              <td>sofort</td>
+            </tr>
+            <tr id="tr2">
+              <td class="lineCell">351</td>
+              <td class="destinationCell">Starpark</td>
+              <td>2 min</td>
+            </tr>
+            <tr id="tr3">
+              <td class="lineCell">34</td>
+              <td class="destinationCell">Heide-Uniklinikum</td>
+              <td>12:32</td>
+            </tr>
+            <tr id="tr4">
+              <td> i </td>
+              <td colspan="2" id="infoText">*** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz
+                *** Bauarbeiten im Bereich Marktplatz ***</td>
+            </tr>
+          </table>
+        </div>
+        </div><!-- /wrapperScroll -->
 
-        <table id="lineControls">
-          <tr>
-            <th>Departure</th>
-            <th>Text</th>
-            <th>Info</th>
-            <th>Font Size</th>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" id="departure1" name="line_one" value="departure" checked>
-            </td>
-            <td>
-              <input type="radio" id="textRow1" name="line_one" value="textRow">
-            </td>
-            <td></td>
-            <td>
-              <input type="number" id="fontSize1" value=64 style="width:50px" min="0" max="400">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" id="departure2" name="line_two" value="departure" checked>
-            </td>
-            <td>
-              <input type="radio" id="textRow2" name="line_two" value="textRow">
-            </td>
-            <td></td>
-            <td>
-              <input type="number" id="fontSize2" value=64 style="width:50px" min="0" max="400">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" id="departure3" name="line_three" value="departure" checked>
-            </td>
-            <td>
-              <input type="radio" id="textRow3" name="line_three" value="textRow">
-            </td>
-            <td></td>
-            <td>
-              <input type="number" id="fontSize3" value=64 style="width:50px" min="0" max="400">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="radio" id="departure4" name="line_four" value="departure">
-            </td>
-            <td>
-              <input type="radio" id="textRow4" name="line_four" value="textRow">
-            </td>
-            <td>
-              <input type="radio" id="infoText4" name="line_four" value="infoText" checked>
-            </td>
-            <td>
-              <input type="number" id="fontSize4" value=64 style="width:50px" min="0" max="400">
-            </td>
-          </tr>
-        </table>
+        <div id="rowControls">
+          <div class="rowControl">
+            <span class="rowLabel">Row 1</span>
+            <div class="modeToggle">
+              <label class="modeOption"><input type="radio" id="departure1" name="line_one" value="departure" checked><span>Departure</span></label>
+              <label class="modeOption"><input type="radio" id="textRow1" name="line_one" value="textRow"><span>Text</span></label>
+            </div>
+            <div class="sizeControl">Size <input type="number" id="fontSize1" value="64" min="0" max="400"></div>
+          </div>
+          <div class="rowControl">
+            <span class="rowLabel">Row 2</span>
+            <div class="modeToggle">
+              <label class="modeOption"><input type="radio" id="departure2" name="line_two" value="departure" checked><span>Departure</span></label>
+              <label class="modeOption"><input type="radio" id="textRow2" name="line_two" value="textRow"><span>Text</span></label>
+            </div>
+            <div class="sizeControl">Size <input type="number" id="fontSize2" value="64" min="0" max="400"></div>
+          </div>
+          <div class="rowControl">
+            <span class="rowLabel">Row 3</span>
+            <div class="modeToggle">
+              <label class="modeOption"><input type="radio" id="departure3" name="line_three" value="departure" checked><span>Departure</span></label>
+              <label class="modeOption"><input type="radio" id="textRow3" name="line_three" value="textRow"><span>Text</span></label>
+            </div>
+            <div class="sizeControl">Size <input type="number" id="fontSize3" value="64" min="0" max="400"></div>
+          </div>
+          <div class="rowControl">
+            <span class="rowLabel">Row 4</span>
+            <div class="modeToggle">
+              <label class="modeOption"><input type="radio" id="departure4" name="line_four" value="departure"><span>Departure</span></label>
+              <label class="modeOption"><input type="radio" id="textRow4" name="line_four" value="textRow"><span>Text</span></label>
+              <label class="modeOption"><input type="radio" id="infoText4" name="line_four" value="infoText" checked><span>Info</span></label>
+            </div>
+            <div class="sizeControl">Size <input type="number" id="fontSize4" value="64" min="0" max="400"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div id="controls">
-      <div>
-        <span id="shiftButton">
-          <button id="generateTickerBtn" onclick="generateTickerAnimation()">&#9889; Generate Ticker Animation</button>
-          <label for="tickerStep">Scroll speed: <input type="number" id="tickerStep" value="3" min="1" max="20" style="width:42px"> chars &nbsp;per&nbsp;
-            <input type="range" min="100" max="3000" step="50" value="1500" id="slider" style="width:140px">
-            <span id="intervalValue"></span>
-          </label>
-        </span>
-        <button onClick="window.location.reload(true)">Reload Page</button>
-      </div>
-      <div id="animationContainer" style="display:none">
-        <button id="createAnimationBtn" style="display:none" onClick="mergeCanvases()">Create Animation</button>
+    <div class="section">
+      <div class="section-title">Generate animation</div>
+      <div id="generateSection">
+        <div id="speedControls">
+          <div class="speedField">
+            <label for="tickerStep">Chars per frame</label>
+            <input type="number" id="tickerStep" value="2" min="1" max="20">
+          </div>
+          <div class="speedField">
+            <label for="slider">Frame duration</label>
+            <div class="sliderRow">
+              <input type="range" min="20" max="3000" step="20" value="200" id="slider" style="width:160px">
+              <span id="intervalValue"></span>
+            </div>
+          </div>
+        </div>
+        <div id="generateActions">
+          <span id="shiftButton">
+            <button id="generateTickerBtn" class="primary" onclick="generateTickerAnimation()">&#9889; Generate</button>
+          </span>
+          <button onclick="window.location.reload(true)">&#8635; Reset</button>
+        </div>
       </div>
       <div id="progressContainer">
         <progress id="progressBar" value="0" max="100"></progress>
@@ -130,22 +119,22 @@
       </div>
     </div>
 
-    <div id="gifAnimationContainer">
-      <h2>Animation Result</h2>
+    <div id="gifAnimationContainer" class="section">
+      <div class="section-title">Result</div>
       <div id="resultContainer">
         <img id="gifAnimation">
         <div id="gifActions">
-          <button onclick="downloadCanvas()">💾 Download GIF</button>
-          <div id="gifSize"></div>
+          <button onclick="downloadCanvas()">&#128190; Download GIF</button>
+          <span class="file-size" id="gifSize"></span>
         </div>
         <div id="video-container">
           <video id="video" controls autoplay loop></video>
         </div>
         <div id="video-download-container">
           <a style="text-decoration: none; color:inherit" id="downloadVideo" download="video.webm">
-            <button>💾 Download Video</button>
-            <div id="videoSize"></div>
+            <button>&#128190; Download Video</button>
           </a>
+          <span class="file-size" id="videoSize"></span>
         </div>
       </div>
     </div>
@@ -153,6 +142,7 @@
     <div id="slidesContainer" style="display:none">
       <h2>Slides:<span id="slides"></span></h2>
     </div>
+    <div id="animationContainer" style="display:none"></div>
 
   </main>
 

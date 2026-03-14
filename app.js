@@ -103,7 +103,7 @@ async function generateTickerAnimation() {
 
   progressContainer.style.display = "none";
   generateBtn.disabled = false;
-  generateBtn.innerText = "⚡ Generate Ticker Animation";
+  generateBtn.innerText = "⚡ Generate";
   isGenerating = false;
 }
 
@@ -168,7 +168,7 @@ function finalizeGif(gif) {
     document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifBlob.size / 1024) + " kB";
 
     let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-    gifAnimationContainer.style.display = "unset";
+    gifAnimationContainer.style.display = "block";
     gifAnimationContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 
     const createBtn = document.getElementById("createAnimationBtn");
