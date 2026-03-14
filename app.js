@@ -1,296 +1,240 @@
 "use strict";
 
-/*global html2canvas, GIFEncoder, encode64*/
-/*eslint no-undef: "error"*/
+/* ─── Constants ─────────────────────────────────────────────── */
+const CANVAS_W   = 900;
+const H_PAD      = 10;
+const V_PAD      = 5;
+const LINE_COL_W = 95;
+const TIME_COL_W = 185;
+const DEST_X     = H_PAD + LINE_COL_W; // 105
 
-let canvasHeight;
-let canvasWidth;
-let canvasCounter = 0;
-let isGenerating = false;
+/* ─── DOM ───────────────────────────────────────────────────── */
+const previewCanvas = document.getElementById('preview');
+const slider        = document.getElementById('slider');
+const intervalValue = document.getElementById('intervalValue');
+intervalValue.innerText = slider.value + ' ms';
+slider.oninput = () => { intervalValue.innerText = slider.value + ' ms'; };
 
-const slider = document.getElementById("slider");
-let intervalValue = document.getElementById("intervalValue");
-intervalValue.innerText = slider.value + " ms";
-slider.oninput = function () { intervalValue.innerText = this.value + " ms"; };
+/* ─── Font ──────────────────────────────────────────────────── */
+const fontReady = document.fonts.load('64px "24 LED"');
 
-let slidesCounter = document.getElementById("slides");
+/* ─── Data ──────────────────────────────────────────────────── */
+const ROW_NAMES = ['one', 'two', 'three', 'four'];
 
-function deleteSlide(e) {
-  e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode);
-  canvasCounter = canvasCounter - 1;
-  slidesCounter.innerText = canvasCounter;
-}
-
-function addCanvasAsync() {
-  let wrapper = document.getElementById("wrapper");
-  return new Promise((resolve) => {
-    const gridContainer = document.createElement("div");
-    gridContainer.className = "grid-container";
-
-    const canvasContainer = document.createElement("div");
-    canvasContainer.className = "grid-item";
-    gridContainer.appendChild(canvasContainer);
-
-    const buttonContainer = document.createElement("div");
-    buttonContainer.className = "grid-item";
-    gridContainer.appendChild(buttonContainer);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.onclick = function () { deleteSlide(this); };
-    deleteButton.innerText = "Delete";
-    buttonContainer.appendChild(deleteButton);
-
-    canvasCounter += 1;
-    let slidesContainer = document.getElementById("slidesContainer");
-    slidesContainer.appendChild(gridContainer);
-    slidesCounter.innerText = canvasCounter;
-
-    html2canvas(wrapper).then(function (canvas) {
-      canvasHeight = canvas.height;
-      canvasWidth = canvas.width;
-      canvasContainer.appendChild(canvas);
-      resolve();
-    });
-  });
-}
-
-async function generateTickerAnimation() {
-  if (isGenerating) return;
-  let infoText = document.getElementById("infoText");
-  if (!infoText) {
-    alert("No info text row is active. Please select 'Info' mode for the last row.");
-    return;
-  }
-
-  isGenerating = true;
-  const generateBtn = document.getElementById("generateTickerBtn");
-  generateBtn.disabled = true;
-  generateBtn.innerText = "Generating…";
-
-  // Reset slides
-  let slidesContainer = document.getElementById("slidesContainer");
-  slidesContainer.innerHTML = '<h2>Slides: <span id="slides"></span></h2>';
-  slidesCounter = document.getElementById("slides");
-  canvasCounter = 0;
-  document.getElementById("animationContainer").style.visibility = "hidden";
-  document.getElementById("gifAnimationContainer").style.display = "none";
-
-  const stepSize = parseInt(document.getElementById("tickerStep").value, 10) || 3;
-  const originalLength = infoText.innerText.length;
-  const totalFrames = Math.ceil(originalLength / stepSize) + 1;
-
-  const progressContainer = document.getElementById("progressContainer");
-  const progressBar = document.getElementById("progressBar");
-  const progressText = document.getElementById("progressText");
-  progressBar.max = totalFrames;
-  progressContainer.style.display = "flex";
-
-  for (let i = 0; i < originalLength; i += stepSize) {
-    progressBar.value = Math.floor(i / stepSize);
-    progressText.innerText = `Frame ${Math.floor(i / stepSize) + 1} / ${totalFrames}`;
-    await addCanvasAsync();
-    for (let j = 0; j < stepSize; j++) {
-      shiftLine();
-    }
-  }
-  // Capture final frame
-  progressBar.value = totalFrames;
-  progressText.innerText = `Frame ${totalFrames} / ${totalFrames}`;
-  await addCanvasAsync();
-
-  progressText.innerText = "Creating animation…";
-  mergeCanvases();
-
-  progressContainer.style.display = "none";
-  generateBtn.disabled = false;
-  generateBtn.innerText = "⚡ Generate";
-  isGenerating = false;
-}
-
-function mergeCanvases() {
-  const createBtn = document.getElementById("createAnimationBtn");
-  if (createBtn) {
-    createBtn.disabled = true;
-    createBtn.innerText = "Creating…";
-  }
-
-  let canvases = document.getElementsByTagName("canvas");
-  let frameDuration = parseInt(slider.value, 10);
-
-  let gif = new GIF({
-    workers: 2,
-    workerScript: './third-party/gif-js/gif.worker.js',
-    quality: 6
-  });
-
-  for (let canvas of canvases) {
-    gif.addFrame(canvas, { delay: frameDuration });
-  }
-
-  finalizeGif(gif);
-
-  let browserSupportsWebmDecoding = true;
-  let maxVideoLenght = 15000;
-  let videoLenght = 0;
-  let videoWriter = new WebMWriter({
-    quality: 0.75,
-    frameDuration: frameDuration
-  });
-
-
-  while (videoLenght + canvases.length * frameDuration <= maxVideoLenght && browserSupportsWebmDecoding) {
-    for (let canvas of canvases) {
-      try {
-        videoWriter.addFrame(canvas);
-        videoLenght += frameDuration;
-      }
-      catch (err) {
-        browserSupportsWebmDecoding = false;
-      }
-    }
-  }
-
-
-  if (browserSupportsWebmDecoding) {
-    finalizeVideo(videoWriter);
-  } else {
-    document.getElementById("video-container").innerText = "Your browser does not support decoding of WebP Base64 URLs. As a result, the animation cannot be created as a video.";
-    document.getElementById("video-download-container").innerText = "";
-  }
-
-
-}
-
-function finalizeGif(gif) {
-  gif.on('finished', function (gifBlob) {
-    let gifAnimation = document.getElementById("gifAnimation");
-    gifAnimation.src = URL.createObjectURL(gifBlob);
-    document.getElementById('gifSize').innerHTML = "~" + Math.ceil(gifBlob.size / 1024) + " kB";
-
-    let gifAnimationContainer = document.getElementById("gifAnimationContainer");
-    gifAnimationContainer.style.display = "block";
-    gifAnimationContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    const createBtn = document.getElementById("createAnimationBtn");
-    if (createBtn) {
-      createBtn.disabled = false;
-      createBtn.innerText = "Create Animation";
+function getRows() {
+  return [1, 2, 3, 4].map(i => {
+    const mode     = document.querySelector(`input[name="line_${ROW_NAMES[i-1]}"]:checked`).value;
+    const fontSize = parseInt(document.getElementById(`fontSize${i}`).value) || 64;
+    switch (mode) {
+      case 'departure':
+        return { type: 'departure',
+          line: document.getElementById(`line${i}`).value,
+          dest: document.getElementById(`dest${i}`).value,
+          time: document.getElementById(`time${i}`).value,
+          fontSize };
+      case 'textRow':
+        return { type: 'text',
+          content: document.getElementById(`textContent${i}`).value,
+          fontSize };
+      default: // infoText
+        return { type: 'info',
+          text: document.getElementById('infoText').value,
+          fontSize };
     }
   });
+}
 
+/* ─── Canvas drawing ────────────────────────────────────────── */
+function drawFrame(canvas, rows, tickerOffset = 0) {
+  const ctx  = canvas.getContext('2d');
+  const rowH = rows.map(r => Math.ceil(r.fontSize * 1.35));
+  canvas.width  = CANVAS_W;
+  canvas.height = rowH.reduce((a, b) => a + b, 0) + V_PAD * 2;
+
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle    = 'yellow';
+  ctx.textBaseline = 'middle';
+
+  let y = V_PAD;
+  rows.forEach((row, i) => {
+    const mid = y + rowH[i] / 2;
+    ctx.font      = `${row.fontSize}px "24 LED"`;
+    ctx.textAlign = 'left';
+
+    if (row.type === 'departure') {
+      ctx.fillText(row.line, H_PAD, mid);
+
+      const destW = CANVAS_W - DEST_X - TIME_COL_W - H_PAD;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(DEST_X, y, destW, rowH[i]);
+      ctx.clip();
+      ctx.fillText(row.dest, DEST_X, mid);
+      ctx.restore();
+
+      ctx.textAlign = 'right';
+      ctx.fillText(row.time, CANVAS_W - H_PAD, mid);
+
+    } else if (row.type === 'text') {
+      ctx.textAlign = 'center';
+      ctx.fillText(row.content, CANVAS_W / 2, mid);
+
+    } else { // info
+      ctx.fillText('i', H_PAD, mid);
+
+      const tickerW = CANVAS_W - DEST_X - H_PAD;
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(DEST_X, y, tickerW, rowH[i]);
+      ctx.clip();
+      ctx.fillText(row.text.slice(tickerOffset), DEST_X, mid);
+      ctx.restore();
+    }
+    y += rowH[i];
+  });
+}
+
+/* ─── Live preview ──────────────────────────────────────────── */
+let previewPending = false;
+function schedulePreview() {
+  if (previewPending) return;
+  previewPending = true;
+  requestAnimationFrame(() => {
+    previewPending = false;
+    drawFrame(previewCanvas, getRows());
+  });
+}
+
+document.getElementById('rowControls').addEventListener('input',  schedulePreview);
+document.getElementById('rowControls').addEventListener('change', e => {
+  if (e.target.type === 'radio') {
+    const row = parseInt(e.target.closest('.rowControl').dataset.row);
+    syncRowFields(row);
+  }
+  schedulePreview();
+});
+
+/* ─── Mode field sync ───────────────────────────────────────── */
+function syncRowFields(rowNum) {
+  const mode = document.querySelector(`input[name="line_${ROW_NAMES[rowNum-1]}"]:checked`).value;
+  document.querySelectorAll(`.rowControl[data-row="${rowNum}"] .fields`).forEach(f => {
+    f.hidden = f.dataset.mode !== mode;
+  });
+}
+[1, 2, 3, 4].forEach(syncRowFields); // init
+
+/* ─── GIF + Video encoding ──────────────────────────────────── */
+function encodeGif(frames, frameMs) {
+  const gif = new GIF({ workers: 2, workerScript: './third-party/gif-js/gif.worker.js', quality: 6 });
+  frames.forEach(f => gif.addFrame(f, { delay: frameMs, copy: true }));
+  gif.on('finished', blob => {
+    document.getElementById('gifAnimation').src = URL.createObjectURL(blob);
+    document.getElementById('gifSize').innerText = '~' + Math.ceil(blob.size / 1024) + ' kB';
+    const c = document.getElementById('gifAnimationContainer');
+    c.style.display = 'block';
+    c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   gif.render();
 }
 
-function finalizeVideo(videoWriter) {
-  videoWriter.complete().then(function (webMBlob) {
-    let url = (window.webkitURL || window.URL).createObjectURL(webMBlob);
-    document.getElementById('video').src = url;
-    document.getElementById('downloadVideo').href = url;
-    document.getElementById('videoSize').innerHTML = "~" + Math.ceil(webMBlob.size / 1024) + " kB";
-  });
+function encodeVideo(frames, frameMs) {
+  const MAX = 15000;
+  let writer, ok = true;
+  try { writer = new WebMWriter({ quality: 0.75, frameDuration: frameMs }); }
+  catch { ok = false; }
+
+  if (ok) {
+    let dur = 0;
+    outer: while (dur < MAX) {
+      for (const f of frames) {
+        if (dur >= MAX) break outer;
+        try { writer.addFrame(f); dur += frameMs; }
+        catch { ok = false; break outer; }
+      }
+    }
+  }
+
+  if (ok) {
+    writer.complete().then(blob => {
+      const url = URL.createObjectURL(blob);
+      document.getElementById('video').src   = url;
+      document.getElementById('downloadVideo').href = url;
+      document.getElementById('videoSize').innerText = '~' + Math.ceil(blob.size / 1024) + ' kB';
+    });
+  } else {
+    document.getElementById('video-container').innerText = 'WebM video not supported in this browser.';
+    document.getElementById('video-download-container').innerText = '';
+  }
 }
 
-function shiftLine() {
-  let shiftLine = document.getElementById("infoText");
-  // Replace spaces to prevent problems when spaces are at the beginning at a string while shifting
-  shiftLine.innerText = shiftLine.innerText.replaceAll(" ", "\u00a0");
-  // Remove the first character
-  shiftLine.innerText = shiftLine.innerText.slice(1);
+/* ─── Generate ──────────────────────────────────────────────── */
+let isGenerating = false;
+
+async function generateTickerAnimation() {
+  if (isGenerating) return;
+  await fontReady;
+
+  const rows    = getRows();
+  const infoRow = rows.find(r => r.type === 'info');
+  if (!infoRow) { alert('Set one row to "Info" mode to generate a ticker animation.'); return; }
+
+  isGenerating = true;
+  const btn = document.getElementById('generateTickerBtn');
+  btn.disabled  = true;
+  btn.innerText = 'Generating\u2026';
+
+  document.getElementById('gifAnimationContainer').style.display = 'none';
+
+  const step    = Math.max(1, parseInt(document.getElementById('tickerStep').value) || 1);
+  const textLen = infoRow.text.length;
+  const nFrames = Math.ceil(textLen / step) + 1;
+  const frameMs = parseInt(slider.value);
+
+  const pb = document.getElementById('progressBar');
+  const pt = document.getElementById('progressText');
+  const pc = document.getElementById('progressContainer');
+  pb.max = nFrames;
+  pc.style.display = 'flex';
+
+  const fc     = document.createElement('canvas');
+  const frames = [];
+
+  for (let offset = 0, n = 0; offset <= textLen; offset += step, n++) {
+    drawFrame(fc, rows, offset);
+
+    const copy = document.createElement('canvas');
+    copy.width  = fc.width;
+    copy.height = fc.height;
+    copy.getContext('2d').drawImage(fc, 0, 0);
+    frames.push(copy);
+
+    if (n % 20 === 0) {
+      pb.value      = n;
+      pt.innerText  = `Frame ${n + 1} / ${nFrames}`;
+      await new Promise(r => setTimeout(r, 0));
+    }
+  }
+
+  pt.innerText = 'Encoding\u2026';
+  encodeGif(frames, frameMs);
+  encodeVideo(frames, frameMs);
+
+  pc.style.display = 'none';
+  btn.disabled     = false;
+  btn.innerText    = '\u26a1 Generate';
+  isGenerating     = false;
 }
 
 function downloadCanvas() {
-  let canvas = document.getElementById("gifAnimation");
-  let image = canvas.src;
-
-  let tmpLink = document.createElement("a");
-  tmpLink.download = "image.gif";
-  tmpLink.href = image;
-
-  document.body.appendChild(tmpLink);
-  tmpLink.click();
-  document.body.removeChild(tmpLink);
+  const a = document.createElement('a');
+  a.download = 'display.gif';
+  a.href     = document.getElementById('gifAnimation').src;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
-const btn1d = document.querySelector("#departure1");
-btn1d.onclick = function () {
-  let line = document.getElementById("tr1");
-  line.innerHTML = "<td class='lineCell'>8</td><td class='destinationCell'>Elsa-Brändström-Str.</td><td>sofort</td>";
-};
-
-const btn1t = document.querySelector("#textRow1");
-btn1t.onclick = function () {
-  let line = document.getElementById("tr1");
-  line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
-};
-
-const btn2d = document.querySelector("#departure2");
-btn2d.onclick = function () {
-  let line = document.getElementById("tr2");
-  line.innerHTML = "<td class='lineCell'>351</td><td class='destinationCell'>Starpark</td><td>2 min</td>";
-};
-
-const btn2t = document.querySelector("#textRow2");
-btn2t.onclick = function () {
-  let line = document.getElementById("tr2");
-  line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
-};
-
-const btn3d = document.querySelector("#departure3");
-btn3d.onclick = function () {
-  let line = document.getElementById("tr3");
-  line.innerHTML = "<td class='lineCell'>34</td><td class='destinationCell'>Heide-Uniklinikum</td><td>12:32</td>";
-};
-
-const btn3t = document.querySelector("#textRow3");
-btn3t.onclick = function () {
-  let line = document.getElementById("tr3");
-  line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
-};
-
-const btn4d = document.querySelector("#departure4");
-btn4d.onclick = function () {
-  let line = document.getElementById("tr4");
-  line.innerHTML = "<td class='lineCell'>5</td><td class='destinationCell'>Bad Dürrenberg</td><td>12:35</td>";
-  let shiftButton = document.getElementById("shiftButton");
-  shiftButton.style.display = "none";
-};
-
-const btn4t = document.querySelector("#textRow4");
-btn4t.onclick = function () {
-  let line = document.getElementById("tr4");
-  line.innerHTML = "<td colspan='3' class='textRow'>text</td>";
-  let shiftButton = document.getElementById("shiftButton");
-  shiftButton.style.display = "none";
-};
-
-const btn4i = document.querySelector("#infoText4");
-btn4i.onclick = function () {
-  let line = document.getElementById("tr4");
-  line.innerHTML = "<td> i </td><td colspan='2' id='infoText'>***  Bauarbeiten im Bereich Marktplatz   ***  Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***</td>";
-  let shiftButton = document.getElementById("shiftButton");
-  shiftButton.style.display = "unset";
-};
-
-const fontSize1 = document.querySelector("#fontSize1");
-fontSize1.oninput = function () {
-  let line = document.getElementById("tr1");
-  line.style.fontSize = fontSize1.value + "px";
-};
-
-const fontSize2 = document.querySelector("#fontSize2");
-fontSize2.oninput = function () {
-  let line = document.getElementById("tr2");
-  line.style.fontSize = fontSize2.value + "px";
-};
-
-const fontSize3 = document.querySelector("#fontSize3");
-fontSize3.oninput = function () {
-  let line = document.getElementById("tr3");
-  line.style.fontSize = fontSize3.value + "px";
-};
-
-const fontSize4 = document.querySelector("#fontSize4");
-fontSize4.oninput = function () {
-  let line = document.getElementById("tr4");
-  line.style.fontSize = fontSize4.value + "px";
-};
+/* ─── Init ──────────────────────────────────────────────────── */
+fontReady.then(schedulePreview);

@@ -21,70 +21,88 @@
       <div class="section-title">Edit the display</div>
       <div id="displaySection">
         <div id="wrapperScroll">
-        <div id="wrapper">
-          <table contenteditable="true" spellcheck="false" id="pidTable">
-            <colgroup>
-              <col id="lineColumn">
-              <col id="destinationColumn">
-              <col id="departureColumn">
-            </colgroup>
-            <tr id="tr1">
-              <td class="lineCell">8</td>
-              <td class="destinationCell">Elsa-Br&#228;ndstr&#246;m-Str.</td>
-              <td>sofort</td>
-            </tr>
-            <tr id="tr2">
-              <td class="lineCell">351</td>
-              <td class="destinationCell">Starpark</td>
-              <td>2 min</td>
-            </tr>
-            <tr id="tr3">
-              <td class="lineCell">34</td>
-              <td class="destinationCell">Heide-Uniklinikum</td>
-              <td>12:32</td>
-            </tr>
-            <tr id="tr4">
-              <td> i </td>
-              <td colspan="2" id="infoText">*** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz
-                *** Bauarbeiten im Bereich Marktplatz ***</td>
-            </tr>
-          </table>
+          <canvas id="preview"></canvas>
         </div>
-        </div><!-- /wrapperScroll -->
 
         <div id="rowControls">
-          <div class="rowControl">
-            <span class="rowLabel">Row 1</span>
-            <div class="modeToggle">
-              <label class="modeOption"><input type="radio" id="departure1" name="line_one" value="departure" checked><span>Departure</span></label>
-              <label class="modeOption"><input type="radio" id="textRow1" name="line_one" value="textRow"><span>Text</span></label>
+          <div class="rowControl" data-row="1">
+            <div class="rowControlTop">
+              <span class="rowLabel">Row&nbsp;1</span>
+              <div class="modeToggle">
+                <label class="modeOption"><input type="radio" id="departure1" name="line_one" value="departure" checked><span>Departure</span></label>
+                <label class="modeOption"><input type="radio" id="textRow1" name="line_one" value="textRow"><span>Text</span></label>
+              </div>
+              <div class="sizeControl">Size <input type="number" id="fontSize1" value="64" min="0" max="400"></div>
             </div>
-            <div class="sizeControl">Size <input type="number" id="fontSize1" value="64" min="0" max="400"></div>
+            <div class="fields" data-mode="departure">
+              <input type="text" id="line1" value="8" placeholder="Line" class="field-sm">
+              <input type="text" id="dest1" value="Elsa-Br&#228;ndstr&#246;m-Str." placeholder="Destination" class="field-fill">
+              <input type="text" id="time1" value="sofort" placeholder="Time" class="field-sm">
+            </div>
+            <div class="fields" data-mode="textRow" hidden>
+              <input type="text" id="textContent1" value="" placeholder="Text" class="field-fill">
+            </div>
           </div>
-          <div class="rowControl">
-            <span class="rowLabel">Row 2</span>
-            <div class="modeToggle">
-              <label class="modeOption"><input type="radio" id="departure2" name="line_two" value="departure" checked><span>Departure</span></label>
-              <label class="modeOption"><input type="radio" id="textRow2" name="line_two" value="textRow"><span>Text</span></label>
+
+          <div class="rowControl" data-row="2">
+            <div class="rowControlTop">
+              <span class="rowLabel">Row&nbsp;2</span>
+              <div class="modeToggle">
+                <label class="modeOption"><input type="radio" id="departure2" name="line_two" value="departure" checked><span>Departure</span></label>
+                <label class="modeOption"><input type="radio" id="textRow2" name="line_two" value="textRow"><span>Text</span></label>
+              </div>
+              <div class="sizeControl">Size <input type="number" id="fontSize2" value="64" min="0" max="400"></div>
             </div>
-            <div class="sizeControl">Size <input type="number" id="fontSize2" value="64" min="0" max="400"></div>
+            <div class="fields" data-mode="departure">
+              <input type="text" id="line2" value="351" placeholder="Line" class="field-sm">
+              <input type="text" id="dest2" value="Starpark" placeholder="Destination" class="field-fill">
+              <input type="text" id="time2" value="2 min" placeholder="Time" class="field-sm">
+            </div>
+            <div class="fields" data-mode="textRow" hidden>
+              <input type="text" id="textContent2" value="" placeholder="Text" class="field-fill">
+            </div>
           </div>
-          <div class="rowControl">
-            <span class="rowLabel">Row 3</span>
-            <div class="modeToggle">
-              <label class="modeOption"><input type="radio" id="departure3" name="line_three" value="departure" checked><span>Departure</span></label>
-              <label class="modeOption"><input type="radio" id="textRow3" name="line_three" value="textRow"><span>Text</span></label>
+
+          <div class="rowControl" data-row="3">
+            <div class="rowControlTop">
+              <span class="rowLabel">Row&nbsp;3</span>
+              <div class="modeToggle">
+                <label class="modeOption"><input type="radio" id="departure3" name="line_three" value="departure" checked><span>Departure</span></label>
+                <label class="modeOption"><input type="radio" id="textRow3" name="line_three" value="textRow"><span>Text</span></label>
+              </div>
+              <div class="sizeControl">Size <input type="number" id="fontSize3" value="64" min="0" max="400"></div>
             </div>
-            <div class="sizeControl">Size <input type="number" id="fontSize3" value="64" min="0" max="400"></div>
+            <div class="fields" data-mode="departure">
+              <input type="text" id="line3" value="34" placeholder="Line" class="field-sm">
+              <input type="text" id="dest3" value="Heide-Uniklinikum" placeholder="Destination" class="field-fill">
+              <input type="text" id="time3" value="12:32" placeholder="Time" class="field-sm">
+            </div>
+            <div class="fields" data-mode="textRow" hidden>
+              <input type="text" id="textContent3" value="" placeholder="Text" class="field-fill">
+            </div>
           </div>
-          <div class="rowControl">
-            <span class="rowLabel">Row 4</span>
-            <div class="modeToggle">
-              <label class="modeOption"><input type="radio" id="departure4" name="line_four" value="departure"><span>Departure</span></label>
-              <label class="modeOption"><input type="radio" id="textRow4" name="line_four" value="textRow"><span>Text</span></label>
-              <label class="modeOption"><input type="radio" id="infoText4" name="line_four" value="infoText" checked><span>Info</span></label>
+
+          <div class="rowControl" data-row="4">
+            <div class="rowControlTop">
+              <span class="rowLabel">Row&nbsp;4</span>
+              <div class="modeToggle">
+                <label class="modeOption"><input type="radio" id="departure4" name="line_four" value="departure"><span>Departure</span></label>
+                <label class="modeOption"><input type="radio" id="textRow4" name="line_four" value="textRow"><span>Text</span></label>
+                <label class="modeOption"><input type="radio" id="infoText4" name="line_four" value="infoText" checked><span>Info</span></label>
+              </div>
+              <div class="sizeControl">Size <input type="number" id="fontSize4" value="64" min="0" max="400"></div>
             </div>
-            <div class="sizeControl">Size <input type="number" id="fontSize4" value="64" min="0" max="400"></div>
+            <div class="fields" data-mode="departure" hidden>
+              <input type="text" id="line4" value="5" placeholder="Line" class="field-sm">
+              <input type="text" id="dest4" value="Bad D&#252;rrenberg" placeholder="Destination" class="field-fill">
+              <input type="text" id="time4" value="12:35" placeholder="Time" class="field-sm">
+            </div>
+            <div class="fields" data-mode="textRow" hidden>
+              <input type="text" id="textContent4" value="" placeholder="Text" class="field-fill">
+            </div>
+            <div class="fields" data-mode="infoText">
+              <input type="text" id="infoText" value="*** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz *** Bauarbeiten im Bereich Marktplatz ***" placeholder="Ticker text" class="field-fill">
+            </div>
           </div>
         </div>
       </div>
@@ -139,10 +157,7 @@
       </div>
     </div>
 
-    <div id="slidesContainer" style="display:none">
-      <h2>Slides:<span id="slides"></span></h2>
-    </div>
-    <div id="animationContainer" style="display:none"></div>
+    <div id="slidesContainer" style="display:none"></div>
 
   </main>
 
@@ -156,7 +171,6 @@
     </a>
   </div>
 
-  <script src="./third-party/html2canvas/html2canvas.js"></script>
   <script src="./third-party/gif-js/gif.js"></script>
   <script src="./third-party/webm-writer-js/webm-writer-0.3.0.js"></script>
   <script src="./app.js"></script>

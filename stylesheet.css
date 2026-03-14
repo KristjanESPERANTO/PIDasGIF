@@ -95,42 +95,11 @@ header p {
        url("./third-party/24_LED/24_LED.svg#24LED") format("svg");
 }
 
-#wrapper {
-  width: 900px;
-  font-size: 64px;
-  color: yellow;
-  background-color: #000;
-  font-family: "24 LED", sans-serif;
+#preview {
+  display: block;
   border-radius: var(--radius-sm);
-  overflow: hidden;
+  max-width: 100%;
 }
-
-#pidTable {
-  width: 900px;
-  table-layout: fixed;
-  border-spacing: 0;
-  padding: 5px 10px;
-  height: auto;
-}
-
-td {
-  word-wrap: break-word;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.lineCell,
-.destinationCell { text-align: left; }
-
-#lineColumn        { width: 95px; }
-#destinationColumn { width: 100%; }
-#departureColumn   { width: 185px; }
-
-.textRow { text-align: center !important; }
-
-/* Prevent line breaks from contenteditable */
-td br { display: none; }
-td *  { display: inline flow-root; }
 
 /* ── Display section layout ─────────────────────────────────── */
 #displaySection {
@@ -158,13 +127,49 @@ td *  { display: inline flow-root; }
 
 .rowControl {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 0;
   padding: 8px 12px;
   background: var(--surface-dim);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
+
+.rowControlTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fields {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.fields[hidden] { display: none; }
+
+.fields input[type="text"] {
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--surface);
+  font-family: inherit;
+  min-width: 0;
+}
+
+.fields input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(13,122,95,.15);
+}
+
+.field-sm  { width: 70px; flex-shrink: 0; }
+.field-fill { flex: 1; }
 
 .rowLabel {
   font-size: 0.75rem;
@@ -422,5 +427,4 @@ input[type="range"]::-moz-range-thumb {
 #github a:hover { color: #ffffff; }
 
 /* ── Hidden but needed in DOM ───────────────────────────────── */
-#animationContainer,
 #slidesContainer { display: none; }
