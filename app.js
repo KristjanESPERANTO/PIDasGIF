@@ -125,18 +125,90 @@ function syncRowFields(rowNum) {
 }
 [1, 2, 3, 4].forEach(syncRowFields); // init
 
-/* ─── GIF + Video encoding ──────────────────────────────────── */
+/* ─── GIF encoder (inline, 2-color: black + yellow) ─────────── */
 function encodeGif(frames, frameMs) {
-  const gif = new GIF({ workers: 2, workerScript: './third-party/gif-js/gif.worker.js', quality: 6 });
-  frames.forEach(f => gif.addFrame(f, { delay: frameMs, copy: true }));
-  gif.on('finished', blob => {
-    document.getElementById('gifAnimation').src = URL.createObjectURL(blob);
-    document.getElementById('gifSize').innerText = '~' + Math.ceil(blob.size / 1024) + ' kB';
-    const c = document.getElementById('gifAnimationContainer');
-    c.style.display = 'block';
-    c.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  gif.render();
+  const W = frames[0].width;
+  const H = frames[0].height;
+  const delay = Math.round(frameMs / 10); // centiseconds
+
+  // Convert canvas pixels to palette indices (0=black, 1=yellow)
+  function getIndices(canvas) {
+    const d = canvas.getContext('2d').getImageData(0, 0, W, H).data;
+    const out = new Uint8Array(W * H);
+    for (let i = 0; i < out.length; i++) out[i] = d[i * 4] > 127 ? 1 : 0;
+    return out;
+  }
+
+  // GIF LZW encoder (min code size = 2; clear=4, eoi=5, alpha=4)
+  // Reuse table across frames to avoid repeated large allocations
+  const _table = new Int32Array(4096 * 4);
+  function lzwEncode(pixels) {
+    _table.fill(-1);
+    let codeSize = 3, nextCode = 6;
+    const bytes = [];
+    let buf = 0, bufBits = 0;
+
+    const emit = c => {
+      buf |= c << bufBits; bufBits += codeSize;
+      while (bufBits >= 8) { bytes.push(buf & 0xFF); buf >>>= 8; bufBits -= 8; }
+    };
+    const reset = () => { _table.fill(-1); codeSize = 3; nextCode = 6; };
+
+    emit(4); // CLEAR
+    let prefix = pixels[0];
+    for (let i = 1; i < pixels.length; i++) {
+      const k = pixels[i], key = prefix * 4 + k;
+      const found = _table[key];
+      if (found >= 0) {
+        prefix = found;
+      } else {
+        emit(prefix);
+        if (nextCode > 4095) { emit(4); reset(); } // CLEAR + reset
+        else {
+          _table[key] = nextCode++;
+          if (nextCode > (1 << codeSize) && codeSize < 12) codeSize++;
+        }
+        prefix = k;
+      }
+    }
+    emit(prefix);
+    emit(5); // EOI
+    if (bufBits > 0) bytes.push(buf & 0xFF);
+    return bytes;
+  }
+
+  const w16 = n => [n & 0xFF, n >> 8];
+  const parts = [];
+  const add = arr => parts.push(new Uint8Array(arr));
+
+  // Header + Logical Screen Descriptor + GCT (2 colors)
+  add([0x47,0x49,0x46,0x38,0x39,0x61]);           // "GIF89a"
+  add([...w16(W), ...w16(H), 0x90, 0, 0]);         // LSD: gctFlag+size=0 (2 entries)
+  add([0, 0, 0,  255, 255, 0]);                    // GCT: black, yellow
+  // Netscape extension: loop forever
+  add([0x21,0xFF,0x0B, 78,69,84,83,67,65,80,69,50,46,48, 0x03,0x01,0,0,0]);
+
+  for (const frame of frames) {
+    // Graphic Control Extension
+    add([0x21,0xF9,0x04, 0x00, ...w16(delay), 0x00, 0x00]);
+    // Image Descriptor
+    add([0x2C, 0,0,0,0, ...w16(W), ...w16(H), 0x00, 2]); // LZW min code size = 2
+
+    const lzw = lzwEncode(getIndices(frame));
+    for (let i = 0; i < lzw.length; i += 255) {
+      const chunk = lzw.slice(i, i + 255);
+      add([chunk.length, ...chunk]);
+    }
+    add([0]); // block terminator
+  }
+  add([0x3B]); // Trailer
+
+  const blob = new Blob(parts, { type: 'image/gif' });
+  document.getElementById('gifAnimation').src = URL.createObjectURL(blob);
+  document.getElementById('gifSize').innerText = '~' + Math.ceil(blob.size / 1024) + ' kB';
+  const c = document.getElementById('gifAnimationContainer');
+  c.style.display = 'block';
+  c.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function encodeVideo(frames, frameMs) {
