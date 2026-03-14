@@ -84,12 +84,20 @@ function drawFrame(canvas, rows, tickerOffset = 0) {
     } else { // info
       ctx.fillText('i', H_PAD, mid);
 
-      const tickerW = CANVAS_W - DEST_X - H_PAD;
+      const tickerX = DEST_X;
+      const tickerW = CANVAS_W - tickerX - H_PAD;
       ctx.save();
       ctx.beginPath();
-      ctx.rect(DEST_X, y, tickerW, rowH[i]);
+      ctx.rect(tickerX, y, tickerW, rowH[i]);
       ctx.clip();
-      ctx.fillText(row.text.slice(tickerOffset), DEST_X, mid);
+      // Tile text for seamless endless loop
+      const tileText = row.text + '    ';
+      const tileW    = ctx.measureText(tileText).width;
+      if (tileW > 0) {
+        const startX = tickerX - (tickerOffset % tileW);
+        for (let x = startX; x < tickerX + tickerW; x += tileW)
+          ctx.fillText(tileText, x, mid);
+      }
       ctx.restore();
     }
     y += rowH[i];
@@ -259,10 +267,16 @@ async function generateTickerAnimation() {
 
   document.getElementById('gifAnimationContainer').style.display = 'none';
 
-  const step    = Math.max(1, parseInt(document.getElementById('tickerStep').value) || 1);
-  const textLen = infoRow.text.length;
-  const nFrames = Math.ceil(textLen / step) + 1;
-  const frameMs = parseInt(slider.value);
+  // Measure tile width (text + separator) using a throw-away canvas
+  const mc   = document.createElement('canvas');
+  const mctx = mc.getContext('2d');
+  mctx.font  = `${infoRow.fontSize}px "24 LED"`;
+  const tileW = Math.round(mctx.measureText(infoRow.text + '    ').width);
+  if (tileW <= 0) { isGenerating = false; btn.disabled = false; btn.innerText = '\u26a1 Generate'; return; }
+
+  const pixelStep = Math.max(1, parseInt(document.getElementById('tickerStep').value) || 10);
+  const nFrames   = Math.ceil(tileW / pixelStep);
+  const frameMs   = parseInt(slider.value);
 
   const pb = document.getElementById('progressBar');
   const pt = document.getElementById('progressText');
@@ -273,8 +287,8 @@ async function generateTickerAnimation() {
   const fc     = document.createElement('canvas');
   const frames = [];
 
-  for (let offset = 0, n = 0; offset <= textLen; offset += step, n++) {
-    drawFrame(fc, rows, offset);
+  for (let n = 0; n < nFrames; n++) {
+    drawFrame(fc, rows, n * pixelStep);
 
     const copy = document.createElement('canvas');
     copy.width  = fc.width;
