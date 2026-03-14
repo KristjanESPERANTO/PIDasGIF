@@ -81,6 +81,44 @@ td * {
   margin: auto 25px;
 }
 
+#progressContainer {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  margin: 10px auto;
+  width: max-content;
+}
+
+#progressBar {
+  width: 260px;
+  height: 14px;
+}
+
+#progressText {
+  font-size: 0.85em;
+  min-width: 130px;
+  text-align: left;
+}
+
+#generateTickerBtn {
+  font-weight: bold;
+  background-color: #2a7ae2;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#generateTickerBtn:hover:not(:disabled) {
+  background-color: #1a5abf;
+}
+
+#generateTickerBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 #controls {
   display: flex;
   width: max-content;
@@ -161,4 +199,23 @@ button:hover {
 #gifAnimationContainer,
 #slidesContainer {
   display: none;
+}
+
+#resultContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#gifAnimation,
+#video {
+  max-width: 100%;
+}
+
+#gifActions,
+#video-download-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

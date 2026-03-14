@@ -112,36 +112,36 @@
 
     <div id="controls">
       <div>
-        <button onClick="addCanvas()">Add Slide</button>
         <span id="shiftButton">
-          <button onClick="shiftLine()">Shift Info Text</button>
-          <button onClick="shiftLineAddCanvas()">Shift Info Text <br>and Add Slide</button>
+          <button id="generateTickerBtn" onclick="generateTickerAnimation()">&#9889; Generate Ticker Animation</button>
+          <label for="tickerStep">Scroll speed: <input type="number" id="tickerStep" value="3" min="1" max="20" style="width:42px"> chars &nbsp;per&nbsp;
+            <input type="range" min="100" max="3000" step="50" value="1500" id="slider" style="width:140px">
+            <span id="intervalValue"></span>
+          </label>
         </span>
         <button onClick="window.location.reload(true)">Reload Page</button>
       </div>
-      <div id="animationContainer">
-        <button onClick="mergeCanvases()">Create Animation</button>
-        <div>
-          <input type="range" min="100" max="3000" step="50" value="1500" id="slider">
-          <label for="slider">Animation interval: <span id="intervalValue"></span><br></label>
-        </div>
+      <div id="animationContainer" style="display:none">
+        <button id="createAnimationBtn" style="display:none" onClick="mergeCanvases()">Create Animation</button>
+      </div>
+      <div id="progressContainer">
+        <progress id="progressBar" value="0" max="100"></progress>
+        <span id="progressText"></span>
       </div>
     </div>
 
     <div id="gifAnimationContainer">
       <h2>Animation Result</h2>
-      <div class="grid-container">
-        <div class="grid-item">
-          <img id="gifAnimation">
-        </div>
-        <div class="grid-item">
+      <div id="resultContainer">
+        <img id="gifAnimation">
+        <div id="gifActions">
           <button onclick="downloadCanvas()">💾 Download GIF</button>
           <div id="gifSize"></div>
         </div>
-        <div class="grid-item" id="video-container">
+        <div id="video-container">
           <video id="video" controls autoplay loop></video>
         </div>
-        <div class="grid-item" id="video-download-container">
+        <div id="video-download-container">
           <a style="text-decoration: none; color:inherit" id="downloadVideo" download="video.webm">
             <button>💾 Download Video</button>
             <div id="videoSize"></div>
@@ -150,7 +150,7 @@
       </div>
     </div>
 
-    <div id="slidesContainer">
+    <div id="slidesContainer" style="display:none">
       <h2>Slides:<span id="slides"></span></h2>
     </div>
 

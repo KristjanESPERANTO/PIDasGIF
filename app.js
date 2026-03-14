@@ -6,6 +6,7 @@
 let canvasHeight;
 let canvasWidth;
 let canvasCounter = 0;
+let isGenerating = false;
 
 const slider = document.getElementById("slider");
 let intervalValue = document.getElementById("intervalValue");
@@ -20,43 +21,99 @@ function deleteSlide(e) {
   slidesCounter.innerText = canvasCounter;
 }
 
-function addCanvas() {
+function addCanvasAsync() {
   let wrapper = document.getElementById("wrapper");
+  return new Promise((resolve) => {
+    const gridContainer = document.createElement("div");
+    gridContainer.className = "grid-container";
 
-  const gridContainer = document.createElement("div");
-  gridContainer.className = "grid-container";
+    const canvasContainer = document.createElement("div");
+    canvasContainer.className = "grid-item";
+    gridContainer.appendChild(canvasContainer);
 
-  const canvasContainer = document.createElement("div");
-  canvasContainer.className = "grid-item";
-  gridContainer.appendChild(canvasContainer);
+    const buttonContainer = document.createElement("div");
+    buttonContainer.className = "grid-item";
+    gridContainer.appendChild(buttonContainer);
 
-  const buttonContainer = document.createElement("div");
-  buttonContainer.className = "grid-item";
-  gridContainer.appendChild(buttonContainer);
+    const deleteButton = document.createElement("button");
+    deleteButton.onclick = function () { deleteSlide(this); };
+    deleteButton.innerText = "Delete";
+    buttonContainer.appendChild(deleteButton);
 
-  const deleteButton = document.createElement("button");
-  deleteButton.onclick = function () { deleteSlide(this); };
-  deleteButton.innerText = "Delete";
-  buttonContainer.appendChild(deleteButton);
+    canvasCounter += 1;
+    let slidesContainer = document.getElementById("slidesContainer");
+    slidesContainer.appendChild(gridContainer);
+    slidesCounter.innerText = canvasCounter;
 
-  canvasCounter += 1;
-  let animationContainer = document.getElementById("animationContainer");
-  if (canvasCounter > 1) {
-    animationContainer.style.visibility = "unset";
-  }
-  let slidesContainer = document.getElementById("slidesContainer");
-  slidesContainer.style.display = "unset";
-  slidesContainer.appendChild(gridContainer);
-  slidesCounter.innerText = canvasCounter;
-
-  html2canvas(wrapper).then(function (canvas) {
-    canvasHeight = canvas.height;
-    canvasWidth = canvas.width;
-    canvasContainer.appendChild(canvas);
+    html2canvas(wrapper).then(function (canvas) {
+      canvasHeight = canvas.height;
+      canvasWidth = canvas.width;
+      canvasContainer.appendChild(canvas);
+      resolve();
+    });
   });
 }
 
+async function generateTickerAnimation() {
+  if (isGenerating) return;
+  let infoText = document.getElementById("infoText");
+  if (!infoText) {
+    alert("No info text row is active. Please select 'Info' mode for the last row.");
+    return;
+  }
+
+  isGenerating = true;
+  const generateBtn = document.getElementById("generateTickerBtn");
+  generateBtn.disabled = true;
+  generateBtn.innerText = "Generating…";
+
+  // Reset slides
+  let slidesContainer = document.getElementById("slidesContainer");
+  slidesContainer.innerHTML = '<h2>Slides: <span id="slides"></span></h2>';
+  slidesCounter = document.getElementById("slides");
+  canvasCounter = 0;
+  document.getElementById("animationContainer").style.visibility = "hidden";
+  document.getElementById("gifAnimationContainer").style.display = "none";
+
+  const stepSize = parseInt(document.getElementById("tickerStep").value, 10) || 3;
+  const originalLength = infoText.innerText.length;
+  const totalFrames = Math.ceil(originalLength / stepSize) + 1;
+
+  const progressContainer = document.getElementById("progressContainer");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  progressBar.max = totalFrames;
+  progressContainer.style.display = "flex";
+
+  for (let i = 0; i < originalLength; i += stepSize) {
+    progressBar.value = Math.floor(i / stepSize);
+    progressText.innerText = `Frame ${Math.floor(i / stepSize) + 1} / ${totalFrames}`;
+    await addCanvasAsync();
+    for (let j = 0; j < stepSize; j++) {
+      shiftLine();
+    }
+  }
+  // Capture final frame
+  progressBar.value = totalFrames;
+  progressText.innerText = `Frame ${totalFrames} / ${totalFrames}`;
+  await addCanvasAsync();
+
+  progressText.innerText = "Creating animation…";
+  mergeCanvases();
+
+  progressContainer.style.display = "none";
+  generateBtn.disabled = false;
+  generateBtn.innerText = "⚡ Generate Ticker Animation";
+  isGenerating = false;
+}
+
 function mergeCanvases() {
+  const createBtn = document.getElementById("createAnimationBtn");
+  if (createBtn) {
+    createBtn.disabled = true;
+    createBtn.innerText = "Creating…";
+  }
+
   let canvases = document.getElementsByTagName("canvas");
   let frameDuration = parseInt(slider.value, 10);
 
@@ -112,6 +169,13 @@ function finalizeGif(gif) {
 
     let gifAnimationContainer = document.getElementById("gifAnimationContainer");
     gifAnimationContainer.style.display = "unset";
+    gifAnimationContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const createBtn = document.getElementById("createAnimationBtn");
+    if (createBtn) {
+      createBtn.disabled = false;
+      createBtn.innerText = "Create Animation";
+    }
   });
 
   gif.render();
@@ -132,11 +196,6 @@ function shiftLine() {
   shiftLine.innerText = shiftLine.innerText.replaceAll(" ", "\u00a0");
   // Remove the first character
   shiftLine.innerText = shiftLine.innerText.slice(1);
-}
-
-function shiftLineAddCanvas() {
-  shiftLine();
-  addCanvas();
 }
 
 function downloadCanvas() {
