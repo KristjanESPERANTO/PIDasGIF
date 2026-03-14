@@ -52,7 +52,10 @@ td {
 #wrapper,
 #pidTable {
   width: 900px;
-  height: 300px;
+}
+
+#pidTable {
+  height: auto;
 }
 
 #wrapper {
